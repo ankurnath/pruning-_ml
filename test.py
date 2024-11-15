@@ -1,40 +1,46 @@
 from utils import *
-from game import MaxCover
-from model import PolicyValueGCN
-from mcts_maxcover import MCTS
 
+from model import PolicyValueGCN
+
+
+from game import MaxCover
+from mcts_maxcover import MCTS
 from greedy import *
 
 
-args = {
-                            # Total number of training iterations
-    'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
-          # location to save latest set of weights
-}
-
-# graph = nx.barabasi_albert_graph(n=1000,m=4)
-
-# graph = nx.barabasi_albert_graph(n=1000,m=4)
-graph = nx.erdos_renyi_graph(n=100,p=0.1)
-
-budget = 5
 model = PolicyValueGCN()
+
+model.load_state_dict(torch.load('latest.pth'))
+
+
+graph = nx.erdos_renyi_graph(n=1000,p=0.1)
+budget = 5
 game = MaxCover(graph=graph,budget=budget)
 
 
 
-mcts = MCTS(game=game,model=model,args=args)
+
+args = {
+    'batch_size': 10,
+    'numIters': 10,                                # Total number of training iterations
+    'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
+    'numEps': 20,                                  # Number of full games (episodes) to run during each iteration
+    'numItersForTrainExamplesHistory': 20,
+    'epochs': 10,                                    # Number of epochs of training per iteration
+    'checkpoint_path': 'latest.pth'                 # location to save latest set of weights
+}
+mcts=MCTS(game=game,model=model,args=args)
 
 root=mcts.run(model=model,state=game.get_init_state())
 
-# print(root.visit_count)
 
 node = root
 actions  = []
 for i in range(budget):
 
-    # print(i)
+    
     if node.expanded():
+        # print(np.sum(node.state))
 
         max_visit_count = 0
         next_node = None
@@ -55,10 +61,5 @@ print(actions)
 print(calculate_obj(graph=graph,solution=actions))
 print(calculate_obj(graph=graph,solution=[0,1,2,3,4]))
 print(greedy(graph=graph,budget=budget))
-
-
-
-
-
 
 

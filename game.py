@@ -43,7 +43,7 @@ class MaxCover:
     
     def has_legal_moves(self, state):
 
-        return (self.graph.number_of_nodes()-np.sum(state))-self.budget >0 
+        return self.budget-(self.graph.number_of_nodes()-np.sum(state)) >0 
     
     def get_valid_moves(self, state):
 

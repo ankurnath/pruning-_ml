@@ -43,7 +43,7 @@ class Trainer:
 
         while True:
             # print(state)
-            if np.sum(state)<8:
+            if (graph.number_of_nodes() -np.sum(state))>budget:
                 raise ValueError('Budget constraint violated')
             # canonical_board = self.game.get_canonical_board(state, current_player)
 
@@ -149,7 +149,8 @@ class Trainer:
 
                 batch_idx += 1
 
-                
+        # print(pi_losses)
+        # print(v_losses)  
 
     def loss_pi(self, targets, outputs):
         loss = -(targets * torch.log(outputs)).sum(dim=1)
@@ -164,6 +165,4 @@ class Trainer:
             os.mkdir(folder)
 
         filepath = os.path.join(folder, filename)
-        torch.save({
-            'state_dict': self.model.state_dict(),
-        }, filepath)
+        torch.save(self.model.state_dict(),filepath )
