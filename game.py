@@ -1,15 +1,16 @@
 import numpy as np
 from greedy import greedy
+from utils import make_subgraph
 
 
 class MaxCover:
 
 
-    def __init__(self,graph,budget):
+    def __init__(self,graph,budget,depth):
         self.graph = graph
         self.budget = budget
-
         self.max_reward = graph.number_of_nodes()
+        self.depth = depth
         # pass
 
         # self.graph = graph
@@ -42,8 +43,9 @@ class MaxCover:
         return new_state
     
     def has_legal_moves(self, state):
+        return self.depth-(self.graph.number_of_nodes()-np.sum(state)) >0
 
-        return self.budget-(self.graph.number_of_nodes()-np.sum(state)) >0 
+        # return self.budget-(self.graph.number_of_nodes()-np.sum(state)) >0 
     
     def get_valid_moves(self, state):
 
@@ -58,16 +60,24 @@ class MaxCover:
         
         # reward,_,_ = greedy(graph=self.graph,budget=self.budget)
 
-        
+        # nodes = list(np.where(state == 0)[0])
+        nodes = list(np.where(state == 0)[0])
 
-        covered_elements=set()
-        for node in range(self.graph.number_of_nodes()):
-            if state[node] == 0:
-                covered_elements.add(node)
-                for neighbour in self.graph.neighbors(node):
-                    covered_elements.add(neighbour)
+        # print(nodes)
+        # print(len(nodes))
+        subgraph = make_subgraph(graph=self.graph,nodes=nodes)
+        reward,_,_ = greedy(graph=subgraph,budget=self.budget)
+        return reward/self.max_reward
+
+
+        # covered_elements=set()
+        # for node in range(self.graph.number_of_nodes()):
+        #     if state[node] == 0:
+        #         covered_elements.add(node)
+        #         for neighbour in self.graph.neighbors(node):
+        #             covered_elements.add(neighbour)
         
-        return len(covered_elements)/self.max_reward
+        # return len(covered_elements)/self.max_reward
 
 
 

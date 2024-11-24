@@ -3,6 +3,7 @@ import torch
 from game import MaxCover
 from model import PolicyValueGCN
 from train import Trainer
+from utils import *
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -24,9 +25,13 @@ args = {
 
 model = PolicyValueGCN()
 
-# game  = MaxCover()
+
+graph = nx.read_edgelist('data/snap_dataset/Facebook.txt',create_using=nx.Graph(), nodetype=int) 
+budget =100
+depth = 150
+game  = MaxCover(graph=graph,budget=budget,depth=depth)
 
 # trainer = Trainer(model, args) 
 
-trainer = Trainer(model, args)
+trainer = Trainer(model=model,game=game,args= args)
 trainer.learn()

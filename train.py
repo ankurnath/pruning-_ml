@@ -18,10 +18,10 @@ import torch.optim as optim
 class Trainer:
 
     def __init__(self, 
-                #  game,
+                game,
                 model, 
                 args):
-        # self.game = game
+        self.game = game
         self.model = model
         self.args = args
         # self.mcts = MCTS(self.game, self.model, self.args)
@@ -33,25 +33,25 @@ class Trainer:
         # state = self.game.get_init_board()
         ####
         # graph = nx.barabasi_albert_graph(n=10,m=4)
-        graph = nx.erdos_renyi_graph(n=100,p=0.1)
-        budget = 5
-        game = MaxCover(graph=graph,budget=budget)
+        # graph = nx.erdos_renyi_graph(n=100,p=0.1)
+        # budget = 5
+        # game = MaxCover(graph=graph,budget=budget)
         
-        state=game.get_init_state()
+        state=self.game.get_init_state()
 
         ###
 
         while True:
             # print(state)
-            if (graph.number_of_nodes() -np.sum(state))>budget:
-                raise ValueError('Budget constraint violated')
+            # if (graph.number_of_nodes() -np.sum(state))>budget:
+            #     raise ValueError('Budget constraint violated')
             # canonical_board = self.game.get_canonical_board(state, current_player)
 
             # self.mcts = MCTS(self.game, self.model, self.args)
-            self.mcts = MCTS(game=game,model=self.model,args=self.args)
+            self.mcts = MCTS(game=self.game,model=self.model,args=self.args)
             root = self.mcts.run(model=self.model,state=state)
 
-            action_probs = [0 for _ in range(game.get_action_size())]
+            action_probs = [0 for _ in range(self.game.get_action_size())]
             # action_probs = [0 ]
             for k, v in root.children.items():
                 action_probs[k] = v.visit_count
@@ -61,18 +61,18 @@ class Trainer:
 
             action = root.select_action(temperature=0)
             # state = self.game.get_next_state(state, action)
-            state = game.get_next_state(state=state,action=action)
+            state = self.game.get_next_state(state=state,action=action)
             # state, current_player = self.game.get_next_state(state, current_player, action)
             # reward = self.game.get_reward_for_player(state, current_player)
 
             # reward = self.game.get_reward_for_player(state)
-            reward = game.get_reward_for_player(state)
+            reward = self.game.get_reward_for_player(state)
 
             if reward is not None:
                 ret = []
 
                 # data = from_networkx(self.game.graph)
-                data = from_networkx(game.graph)
+                data = from_networkx(self.game.graph)
                 # data.x = torch.from_numpy(next_state)
                 # data = Batch.from_data_list([data])
                 for hist_state,hist_action_probs in train_examples:

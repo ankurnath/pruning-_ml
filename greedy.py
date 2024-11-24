@@ -98,7 +98,7 @@ def greedy(graph,budget,ground_set=None):
         # print(gains[selected_element])
         gain_adjustment(graph,gains,selected_element,uncovered)
 
-    print('Number of queries:',number_of_queries)
+    # print('Number of queries:',number_of_queries)
 
 
     return obj_val,solution,number_of_queries

@@ -11,18 +11,7 @@ from utils import *
 
 # Implementing for MaxCover (Upper Confidence Bounds)
 def ucb_score(parent,child):
-
     prior_score = child.prior * np.sqrt(parent.visit_count) / (child.visit_count + 1)
-
-
-    # if child.visit_count > 0:
-    #     # The value of the child is from the perspective of the opposing player
-    #     value_score = child.value()
-    # else:
-    #     value_score = 0
-
-    #     ## if visit count is zero
-
     return  child.value() + prior_score 
 
 
@@ -77,7 +66,7 @@ class Node:
 
         for action, child in self.children.items():
             score = ucb_score(self, child)
-            if score > best_score:
+            if score >= best_score:
                 best_score = score
                 best_action = action
                 best_child = child
@@ -119,8 +108,9 @@ class Node:
 class MCTS:
 
     def __init__(self, game, model, args):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.game = game
-        self.model = model
+        self.model = model.to(self.device)
         self.args = args
 
     def run(self, model, state):
@@ -131,13 +121,14 @@ class MCTS:
         data = from_networkx(self.game.graph)
         data.x = torch.from_numpy(state)
         data = Batch.from_data_list([data])
+        data = data.to(self.device)
 
         # print(data.x.dtype)
 
         # EXPAND root
         # action_probs, value = model(state)
         action_probs, value = model(data)
-        action_probs = action_probs.detach().numpy()
+        action_probs = action_probs.cpu().detach().numpy()
         
         valid_moves = self.game.get_valid_moves(state)
         action_probs = action_probs * valid_moves  # mask invalid moves
@@ -188,11 +179,12 @@ class MCTS:
                 data = from_networkx(self.game.graph)
                 data.x = torch.from_numpy(next_state)
                 data = Batch.from_data_list([data])
+                data = data.to(self.device)
 
                 ####
                 # action_probs, value = model(next_state)
                 action_probs, value = model(data)
-                action_probs = action_probs.detach().numpy()
+                action_probs = action_probs.cpu().detach().numpy()
                 value = value.item()
                 valid_moves = self.game.get_valid_moves(next_state)
                 action_probs = action_probs * valid_moves  # mask invalid moves

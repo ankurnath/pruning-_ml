@@ -14,6 +14,10 @@ from torch_geometric.nn import GCNConv
 from torch_geometric.nn.pool import global_mean_pool
 
 from torch_geometric.data import Data, Batch
+
+from tqdm import tqdm
+from time import time
+from argparse import ArgumentParser
 def load_from_pickle(file_path):
     """
     Load data from a pickle file.
@@ -53,7 +57,7 @@ def make_subgraph(graph, nodes):
     return subgraph
 
 
-def relabel_graph(graph: nx.Graph, return_reverse_transformation_dic=False, return_forward_transformation_dic=False):
+def relabel_graph(graph: nx.Graph, return_reverse_transformation_dic=True, return_forward_transformation_dic=True):
     """
     forward transformation has keys being original nodes and values being new nodes
     reverse transformation has keys being new nodes and values being old nodes
@@ -81,5 +85,35 @@ def relabel_graph(graph: nx.Graph, return_reverse_transformation_dic=False, retu
 
     else:
         return nx.relabel_nodes(graph, transformation)
+
+
+def load_graph(file_path):
+
+    if file_path.endswith('.txt'):
+
+        try:
+            graph = nx.read_edgelist(file_path, create_using=nx.Graph(), nodetype=int)
+
+        except:
+            f = open(file_path, mode="r")
+            lines = f.readlines()
+            edges = []
+
+            for line in lines:
+                line = line.split()
+                if line[0].isdigit():
+                    edges.append([int(line[0]), int(line[1])])
+            graph = nx.Graph()
+            graph.add_edges_from(edges)
+        
+
+    else:
+        graph = load_from_pickle(file_path=file_path)
+
+
+    graph.remove_edges_from(list(nx.selfloop_edges(graph)))
+
+    graph,_,_ = relabel_graph(graph=graph)
+    return graph
 
 
