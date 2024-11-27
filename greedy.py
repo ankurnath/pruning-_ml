@@ -92,7 +92,7 @@ def greedy(graph,budget,ground_set=None):
         obj_val += gains[selected_element]
 
         if gains[selected_element]==0:
-            print('All elements are already covered')
+            # print('All elements are already covered')
             break
         solution.append(selected_element)
         # print(gains[selected_element])

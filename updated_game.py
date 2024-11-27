@@ -7,9 +7,7 @@ from utils import *
 
 
 class Game:
-
-
-    def __init__(self,graph,heuristic,budget,depth,GNNpruner = None):
+    def __init__(self,graph,heuristic,budget,depth,GNNpruner = None,train=True):
 
 
 
@@ -20,18 +18,34 @@ class Game:
 
 
         if GNNpruner:
-            self.graph,self.action_mask = GNNpruner.test(graph=graph,budget=budget)
+            self.action_mask = GNNpruner.test(test_graph=graph)
+            # print('Action mask length:',len(self.action_mask),self.action_mask)
 
-            
+            subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+
+            relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+            # print(relabeled_subgraph.number_of_nodes())
+            self.graph = relabeled_subgraph
+            self.foward_mapping = forward_mapping
+            self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+            self.reverse_mapping = reverse_mapping
+            # print(self.reverse_mapping)         
         else:
             self.graph = graph
-            self.action_mask = []
+            if train:
+                _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
+            else:
+                self.action_mask = [node for node in graph.nodes()]
+            
+        _action_mask = set(self.action_mask)
+        self.action_demask = [node for node in self.graph.nodes() if node 
+                                not in set(_action_mask)]
 
     def get_init_state(self):
 
-        state = np.ones(shape=(self.graph.number_of_nodes(),1),dtype=np.float32)
+        state = np.ones(shape=(self.graph.number_of_nodes(),1),dtype=np.float32) * -1
 
-        state [self.action_mask] = -1
+        state [self.action_mask] = 1
         return state
     
 
@@ -50,7 +64,9 @@ class Game:
     
     def has_legal_moves(self, state):
 
-        return self.depth-(self.graph.number_of_nodes()-np.sum(state)-len(self.action_mask)) > 0
+        # valid_moves = (state == 1)
+        return  np.sum(state == 1)>0 and self.depth> np.sum(state==0)
+        # return self.depth-(self.graph.number_of_nodes()-np.sum(state)-len(self.action_mask)) > 0
 
         
     
@@ -74,12 +90,12 @@ class Game:
         
     
 class MaxCover(Game):
-    def __init__(self, graph, heuristic, budget, depth, use_gnn_mask=False):
+    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train):
         # Properly call the parent class's initializer using `super()`
-        super().__init__(graph, heuristic, budget, depth, use_gnn_mask)
+        super().__init__(graph, heuristic, budget, depth, GNNpruner,train)
         
         # Correctly access the `max_reward` attribute from the `graph` object
-        self.max_reward = self.graph.max_reward
+        self.max_reward = self.graph.number_of_nodes()
 
         
 

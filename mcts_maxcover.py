@@ -141,7 +141,7 @@ class MCTS:
 
         # print(self.args['num_simulations'])
 
-        for _ in range(self.args['num_simulations']):
+        for _ in tqdm(range(self.args['num_simulations'])):
 
         # for _ in range(200):
             node = root

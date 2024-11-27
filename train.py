@@ -24,6 +24,7 @@ class Trainer:
         self.game = game
         self.model = model
         self.args = args
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         # self.mcts = MCTS(self.game, self.model, self.args)
 
     def exceute_episode(self):
@@ -50,7 +51,7 @@ class Trainer:
             # self.mcts = MCTS(self.game, self.model, self.args)
             self.mcts = MCTS(game=self.game,model=self.model,args=self.args)
             root = self.mcts.run(model=self.model,state=state)
-
+ 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             # action_probs = [0 ]
             for k, v in root.children.items():
@@ -79,6 +80,8 @@ class Trainer:
                     # data_copy = data.copy()
                     data_copy = data.clone()  # Use clone for deep copy instead of copy()
                     data_copy.x = torch.from_numpy(hist_state)
+                    hist_action_probs[self.game.action_mask] *=0.5/len(self.game.action_mask)
+                    hist_action_probs[self.game.action_demask] *= 0.5 / len(self.game.action_demask)
                     ret.append((data_copy,hist_action_probs,reward))
                     # [Board, currentPlayer, actionProbabilities, Reward]
                     # ret.append((hist_state, hist_action_probs, reward * ((-1) ** (hist_current_player != current_player))))
@@ -117,10 +120,10 @@ class Trainer:
                 sample_ids = np.random.randint(len(examples), size=self.args['batch_size'])
                 # boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
                 graphs, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
-                data = Batch.from_data_list(graphs)
+                data = Batch.from_data_list(graphs).to(self.device)
                 # boards = torch.FloatTensor(np.array(boards).astype(np.float64))
-                target_pis = torch.FloatTensor(np.array(pis)).reshape(-1,1)
-                target_vs = torch.FloatTensor(np.array(vs).astype(np.float64))
+                target_pis = torch.FloatTensor(np.array(pis)).reshape(-1,1).to(self.device)
+                target_vs = torch.FloatTensor(np.array(vs).astype(np.float64)).to(self.device)
 
                 # print(torch.sum(target_pis[:100]))
                 # print(target_vs.shape)

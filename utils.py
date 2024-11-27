@@ -57,22 +57,29 @@ def make_subgraph(graph, nodes):
     return subgraph
 
 
-def relabel_graph(graph: nx.Graph, return_reverse_transformation_dic=True, return_forward_transformation_dic=True):
+def relabel_graph(graph: nx.Graph, 
+                  return_reverse_transformation_dic=True, 
+                  return_forward_transformation_dic=True):
     """
     forward transformation has keys being original nodes and values being new nodes
     reverse transformation has keys being new nodes and values being old nodes
     """
-    nodes = graph.nodes()
-    n = graph.number_of_nodes()
-    desired_labels = set([i for i in range(n)])
-    already_labeled = set([int(node) for node in nodes if node < n])
-    desired_labels = desired_labels - already_labeled
-    transformation = {}
-    reverse_transformation = {}
-    for node in nodes:
-        if node >= graph.number_of_nodes():
-            transformation[node] = desired_labels.pop()
-            reverse_transformation[transformation[node]] = node
+
+    transformation = dict(zip(graph.nodes(), range(graph.number_of_nodes())))
+    # print(transformation)
+    # print(len(transformation))
+    reverse_transformation = {value: key for key, value in transformation.items()}
+    # nodes = graph.nodes()
+    # n = graph.number_of_nodes()
+    # desired_labels = set([i for i in range(n)])
+    # already_labeled = set([int(node) for node in nodes if node < n])
+    # desired_labels = desired_labels - already_labeled
+    # transformation = {}
+    # reverse_transformation = {}
+    # for node in nodes:
+    #     if node >= graph.number_of_nodes():
+    #         transformation[node] = desired_labels.pop()
+    #         reverse_transformation[transformation[node]] = node
 
     if return_reverse_transformation_dic and return_forward_transformation_dic:
         return nx.relabel_nodes(graph, transformation), transformation, reverse_transformation
