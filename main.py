@@ -16,9 +16,27 @@ if __name__ == "__main__":
     parser.add_argument("--problem",type=str,default='MaxCover')
     parser.add_argument("--budget",type=int,default=100)
     parser.add_argument("--depth",type=int,default=100)
+    parser.add_argument("--device", type=int,default=None, help="cuda device")
     args = parser.parse_args()
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
+
+    # Get the number of CUDA devices
+    num_devices = torch.cuda.device_count()
+    for i in range(num_devices):
+        device_name = torch.cuda.get_device_name(i)
+        print("CUDA Device {}: {}".format(i, device_name))
+
+    if torch.cuda.is_available():
+        if args.device is None:
+            device = 'cuda:0' 
+        else:
+            device=f'cuda:{args.device}'
+
+    else:
+        device='cpu'
+
+
     dataset = args.dataset
     budget = args.budget
     depth = args.depth
@@ -46,7 +64,7 @@ if __name__ == "__main__":
 
     
     
-    graph = load_graph(f'data/train/{dataset}')
+    graph = load_graph(f'../snap_dataset/train/{dataset}')
     
 
     # pruner = GNNpruner()

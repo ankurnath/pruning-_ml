@@ -17,7 +17,7 @@ def train_test_split (dataset:str,ratio:float,edge_level_split:bool,seed:int):
     
 
     current_folder = os.getcwd()
-    file_path = os.path.join(current_folder,f'data/snap_dataset/{dataset}.txt')
+    file_path = os.path.join(current_folder,f'../snap_dataset/{dataset}.txt')
     graph = load_graph(file_path)
 
     # graph = load_graph(f'../../data/snap_dataset/{dataset}.txt')
@@ -26,8 +26,8 @@ def train_test_split (dataset:str,ratio:float,edge_level_split:bool,seed:int):
     
     # train_save_folder='../../data/train'
 
-    train_save_folder= os.path.join(current_folder,'data/train')
-    test_save_folder= os.path.join(current_folder,'data/test')
+    train_save_folder= os.path.join(current_folder,'../snap_dataset/train')
+    test_save_folder= os.path.join(current_folder,'../snap_dataset/test')
 
     # test_save_folder='../../data/test'
 

@@ -46,7 +46,7 @@ if __name__ == "__main__":
     }
 
 
-    test_graph = load_graph(f'data/test/{dataset}')
+    test_graph = load_graph(f'../data/test/{dataset}')
 
     if problem == 'MaxCover':
         heuristic = maxcover_heuristic

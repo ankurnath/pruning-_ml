@@ -19,9 +19,10 @@ def download(datasets):
                 "Twitter":"https://snap.stanford.edu/data/twitter_combined.txt.gz",
                 }
 
-    current_folder = os.getcwd()
-    print(current_folder)
-    save_path= os.path.join(current_folder,f'data/snap_dataset')
+    # current_folder = os.getcwd()
+    # print(current_folder)
+    # save_path= os.path.join(current_folder,f'data/snap_dataset')
+    save_path= os.path.join(f'../snap_dataset')
     os.makedirs(save_path,exist_ok=True)
 
 
