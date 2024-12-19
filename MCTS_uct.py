@@ -1,6 +1,6 @@
 import networkx as nx
 import numpy as np
-from greedy import greedy
+from greedy_maxcover import greedy
 
 
 

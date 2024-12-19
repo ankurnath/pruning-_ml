@@ -1,5 +1,5 @@
 import numpy as np
-from greedy import greedy
+# from greedy_maxcover import greedy
 # from utils import make_subgraph 
 from utils import *
 
@@ -80,6 +80,8 @@ class Game:
         if self.has_legal_moves(state):
 
             return None
+
+        
         
         nodes = np.where(state == 0)[0]
         subgraph = make_subgraph(graph=self.graph,nodes=nodes)
@@ -97,18 +99,85 @@ class MaxCover(Game):
         # Correctly access the `max_reward` attribute from the `graph` object
         self.max_reward = self.graph.number_of_nodes()
 
+
+class MaxCut(Game):
+    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train):
+        # Properly call the parent class's initializer using `super()`
+        super().__init__(graph, heuristic, budget, depth, GNNpruner,train)
         
+        # Correctly access the `max_reward` attribute from the `graph` object
+        self.max_reward = self.graph.number_of_edges()
 
+
+
+
+class IM(Game):
+    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train):
+
+
+        self.budget = budget
+        self.heuristic = heuristic
+        self.depth = depth
+        self.train = train
+        self.graph = graph
+
+        if self.train:
+        
+            _,self.action_mask,rr = heuristic(graph=graph,budget=budget)
+
+            print([graph.degree(node) for node in self.action_mask])
+
+            self.rr = rr
+
+            rr_degree = defaultdict(int)
+            node_rr_set = defaultdict(list)
+            
+            for j,rr in enumerate(rr):
+                for rr_node in rr:
+                    rr_degree[rr_node]+=1
+                    node_rr_set[rr_node].append(j)
+            
+            self.rr_degree= rr_degree
+            self.node_rr_set = node_rr_set
+
+        else:
+            self.action_mask = [node for node in graph.nodes()]
+        self.max_reward = graph.number_of_nodes()
+            
+        _action_mask = set(self.action_mask)
+        self.action_demask = [node for node in self.graph.nodes() if node 
+                                not in set(_action_mask)]
+
+
+        
+    def get_reward_for_player(self, state):
+
+        if self.has_legal_moves(state) or not self.train:
+            return None
+        
+        # print('Using this reward')
+        nodes = np.where(state == 0)[0]
+        gains = {node:self.rr_degree[node] for node in nodes}
+        covered_rr_set = set()
+        matched_count = 0
+        for i in range(self.budget):
+            max_point = max(gains,key=gains.get)
+            
+            matched_count +=gains[max_point]
+            for index in self.node_rr_set[max_point]:
+                if index not in covered_rr_set:
+                    covered_rr_set.add(index)
+                    for rr_node in self.rr[index]:
+                        if rr_node in gains:
+                            gains[rr_node]-=1
+        return   matched_count / len(self.rr)/self.max_reward
+            
     
 
 
 
     
-    # def has_legal_moves(self, board):
-    #     for index in range(self.columns):
-    #         if board[index] == 0:
-    #             return True
-    #     return False
+
     
 
     

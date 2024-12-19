@@ -1,0 +1,6 @@
+2024-12-17 11:17:39,219 - INFO - Starting train_test_split with dataset=Wiki, ratio=0.3, edge_level_split=True
+2024-12-17 11:17:39,414 - INFO - Graph loaded with 7115 nodes and 100762 edges
+2024-12-17 11:17:39,414 - INFO - Train and test directories created or already exist
+2024-12-17 11:17:39,465 - INFO -  Train edges: 30228, Test edges: 70534
+2024-12-17 11:17:39,503 - INFO - Train graph created with 4891 nodes and 30228 edges
+2024-12-17 11:17:39,650 - INFO - Test graph created with 6358 nodes and 70534 edges

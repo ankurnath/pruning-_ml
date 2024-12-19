@@ -3,7 +3,7 @@ from game import MaxCover
 from model import PolicyValueGCN
 from mcts_maxcover import MCTS
 
-from greedy import *
+from greedy_maxcover import *
 
 
 args = {

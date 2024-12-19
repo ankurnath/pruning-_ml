@@ -3,7 +3,7 @@ from utils import *
 from torch_geometric.utils.convert import  from_networkx
 import pandas as pd
 
-from greedy import greedy
+from greedy_maxcover import greedy
 
 
 class GCN(torch.nn.Module):

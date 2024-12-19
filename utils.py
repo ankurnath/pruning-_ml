@@ -16,8 +16,11 @@ from torch_geometric.nn.pool import global_mean_pool
 from torch_geometric.data import Data, Batch
 
 from tqdm import tqdm
-from time import time
+import time
 from argparse import ArgumentParser
+import pandas as pd
+
+
 def load_from_pickle(file_path):
     """
     Load data from a pickle file.

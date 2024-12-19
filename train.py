@@ -1,9 +1,9 @@
 from utils import *
 from game import MaxCover
 from model import PolicyValueGCN
-from mcts_maxcover import MCTS
+from mcts import MCTS
 
-from greedy import *
+from greedy_maxcover import *
 
 
 import os
@@ -80,8 +80,8 @@ class Trainer:
                     # data_copy = data.copy()
                     data_copy = data.clone()  # Use clone for deep copy instead of copy()
                     data_copy.x = torch.from_numpy(hist_state)
-                    hist_action_probs[self.game.action_mask] *=0.5/len(self.game.action_mask)
-                    hist_action_probs[self.game.action_demask] *= 0.5 / len(self.game.action_demask)
+                    hist_action_probs[self.game.action_mask] *=len(self.game.action_demask)/self.game.graph.number_of_nodes()
+                    hist_action_probs[self.game.action_demask] *= len(self.game.action_mask)/self.game.graph.number_of_nodes()
                     ret.append((data_copy,hist_action_probs,reward))
                     # [Board, currentPlayer, actionProbabilities, Reward]
                     # ret.append((hist_state, hist_action_probs, reward * ((-1) ** (hist_current_player != current_player))))
@@ -89,6 +89,7 @@ class Trainer:
                 return ret
 
     def learn(self):
+        best_loss = float('inf')  # Initialize the best loss to infinity
         for i in range(1, self.args['numIters'] + 1):
 
             print("{}/{}".format(i, self.args['numIters']))
@@ -100,16 +101,27 @@ class Trainer:
                 train_examples.extend(iteration_train_examples)
 
             shuffle(train_examples)
-            self.train(train_examples)
-            filename = self.args['checkpoint_path']
-            self.save_checkpoint(folder=".", filename=filename)
+
+            avg_loss = self.train(train_examples)  # Get average loss for the current iteration
+
+            # Save the model if the average loss improves
+            if avg_loss < best_loss:
+                print(f"New best model found at iteration {i} with loss {avg_loss:.4f}. Saving model...")
+                best_loss = avg_loss
+                filename = self.args['checkpoint_path']
+                self.save_checkpoint(filename=filename)
+            # self.train(train_examples)
+            # filename = self.args['checkpoint_path']
+            # # self.save_checkpoint(folder=".", filename=filename)
+            # self.save_checkpoint(filename=filename)
 
     def train(self, examples):
-        optimizer = optim.Adam(self.model.parameters(), lr=5e-4)
+        # optimizer = optim.Adam(self.model.parameters(), lr=5e-4)
+        optimizer = optim.Adam(self.model.parameters(), lr=1e-4)
         pi_losses = []
         v_losses = []
 
-        print(len(examples))
+        # print(len(examples))
 
         for epoch in range(self.args['epochs']):
             self.model.train()
@@ -153,7 +165,15 @@ class Trainer:
                 batch_idx += 1
 
         # print(pi_losses)
-        # print(v_losses)  
+        # print(v_losses)
+        # Calculate and return the average total loss
+        avg_pi_loss = sum(pi_losses) / len(pi_losses)
+        avg_v_loss = sum(v_losses) / len(v_losses)
+        avg_total_loss = avg_pi_loss + avg_v_loss
+
+        # print(f"Average Policy Loss: {avg_pi_loss:.4f}, Average Value Loss: {avg_v_loss:.4f}, Total Loss: {avg_total_loss:.4f}")
+        return avg_total_loss 
+          
 
     def loss_pi(self, targets, outputs):
         loss = -(targets * torch.log(outputs)).sum(dim=1)
@@ -163,9 +183,6 @@ class Trainer:
         loss = torch.sum((targets-outputs.view(-1))**2)/targets.size()[0]
         return loss
 
-    def save_checkpoint(self, folder, filename):
-        if not os.path.exists(folder):
-            os.mkdir(folder)
-
-        filepath = os.path.join(folder, filename)
-        torch.save(self.model.state_dict(),filepath )
+    def save_checkpoint(self, 
+                        filename):
+        torch.save(self.model.state_dict(),filename )

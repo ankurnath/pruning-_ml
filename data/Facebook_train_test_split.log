@@ -1,0 +1,6 @@
+2024-11-27 04:39:07,484 - INFO - Starting train_test_split with dataset=Facebook, ratio=0.3, edge_level_split=True
+2024-11-27 04:39:07,619 - INFO - Graph loaded with 4039 nodes and 88234 edges
+2024-11-27 04:39:07,619 - INFO - Train and test directories created or already exist
+2024-11-27 04:39:07,656 - INFO -  Train edges: 26470, Test edges: 61764
+2024-11-27 04:39:07,682 - INFO - Train graph created with 3847 nodes and 26470 edges
+2024-11-27 04:39:07,799 - INFO - Test graph created with 4002 nodes and 61764 edges
