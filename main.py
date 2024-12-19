@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     save_folder = f'pretrained/{problem}/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
-    save_file_path = os.path.join(save_folder,'latest.pth')
+    save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
         'batch_size': 10,

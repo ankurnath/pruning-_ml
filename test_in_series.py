@@ -4,6 +4,7 @@ import subprocess
 problems = [
             'MaxCover', 
             'MaxCut',
+            'IM'
             ]
 datasets = ['Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 'YouTube', 'Skitter']
 
@@ -13,11 +14,11 @@ commands = []
 for problem in problems:
     for dataset in datasets:
         # Construct the command for each combination of problem and dataset
-        command = f'python main.py --problem {problem} --dataset {dataset} --device {devices[problem]}'
+        command = f'python test.py --problem {problem} --dataset {dataset} --device {devices[problem]}'
         commands.append(command)  # Corrected: append the command to the list
 
-# Start each command in parallel without waiting for them to finish
+# Start each command serially (one after the other)
 for cmd in commands:
-    subprocess.Popen(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
 
-print("All commands have been started.")
+print("All commands have been completed.")

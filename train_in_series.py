@@ -2,8 +2,7 @@ import subprocess
 
 # Define the commands to be run in parallel
 problems = [
-            'MaxCover', 
-            'MaxCut',
+            'IM'
             ]
 datasets = ['Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 'YouTube', 'Skitter']
 
@@ -16,8 +15,8 @@ for problem in problems:
         command = f'python main.py --problem {problem} --dataset {dataset} --device {devices[problem]}'
         commands.append(command)  # Corrected: append the command to the list
 
-# Start each command in parallel without waiting for them to finish
+# Start each command serially (one after the other)
 for cmd in commands:
-    subprocess.Popen(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
 
-print("All commands have been started.")
+print("All commands have been completed.")
