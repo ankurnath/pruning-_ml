@@ -10,6 +10,9 @@ from imm import imm
 from gnnpruner_train import *
 
 if __name__ == "__main__":
+
+    torch.manual_seed(42)
+    torch.cuda.manual_seed(42)
     parser = ArgumentParser()
 
     parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
@@ -49,12 +52,12 @@ if __name__ == "__main__":
     save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
-        'batch_size': 10,
+        'batch_size': 64,
         'numIters': 10,                                # Total number of training iterations
         'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
         'numEps': 1,                                  # Number of full games (episodes) to run during each iteration
-        'numItersForTrainExamplesHistory': 20,
-        'epochs': 10,                                    # Number of epochs of training per iteration
+        # 'numItersForTrainExamplesHistory': 20,
+        'epochs': 1,                                    # Number of epochs of training per iteration
         'checkpoint_path': save_file_path                # location to save latest set of weights
     }
 

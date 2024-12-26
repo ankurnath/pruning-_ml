@@ -24,7 +24,7 @@ if __name__ == "__main__":
     num_devices = torch.cuda.device_count()
     for i in range(num_devices):
         device_name = torch.cuda.get_device_name(i)
-        print("CUDA Device {}: {}".format(i, device_name))
+        # print("CUDA Device {}: {}".format(i, device_name))
 
     if torch.cuda.is_available():
         if args.device is None:
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     save_folder = f'pretrained/{problem}/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
-    save_file_path = os.path.join(save_folder,'latest.pth')
+    save_file_path = os.path.join(save_folder,'best.pth')
 
     model.load_state_dict(torch.load(save_file_path,weights_only=False))
     
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
         'numEps': 1,                                  # Number of full games (episodes) to run during each iteration
         'numItersForTrainExamplesHistory': 20,
-        'epochs': 10,                                    # Number of epochs of training per iteration
+        'epochs': 1,                                    # Number of epochs of training per iteration
         'checkpoint_path': 'best.pth'                 # location to save latest set of weights
     }
 
@@ -76,13 +76,20 @@ if __name__ == "__main__":
 
     else:
         raise ValueError('Unknown Problem')
+    
+
+    start = time.time()
 
     game  = env(graph=test_graph,heuristic=heuristic,
                          budget=budget,depth=depth,
                          GNNpruner=None,
                          train=False)
 
+    end = time.time()
 
+    print('Time elpased to create the game',round(end-start,4))
+
+    time_to_create_game = end-start
 
     start = time.time()
    
@@ -91,13 +98,6 @@ if __name__ == "__main__":
                             k=0.5,
                             args=args
                             )
-
-    
-
-
-
-
-
 
     root=mcts.run(model=model,state=game.get_init_state())
 
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     print('time elapsed to pruned',time_to_prune)
 
 
-    print([test_graph.degree(node) for node in pruned_universe])
+    # print([test_graph.degree(node) for node in pruned_universe])
     Pg = len(pruned_universe)/test_graph.number_of_nodes()
     start = time.time()
     objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
@@ -177,12 +177,14 @@ if __name__ == "__main__":
             #   'Queries(Unpruned)': queries_unpruned,
               'Time(Unpruned)':time_unpruned,
               'Time(Pruned)': time_pruned,
+              'Pruned Ground set(%)': Pg*100,
             #   'Queries(Pruned)': queries_pruned, 
-              'Pruned Ground set(%)': round(Pg,4)*100,
-              'Ratio(%)':round(ratio,4)*100, 
+            #   'Pruned Ground set(%)': round(Pg,4)*100,
+              'Ratio(%)':ratio*100, 
             #   'Queries(%)': round(queries_pruned/queries_unpruned,4)*100,
               'TimeRatio': time_pruned/time_unpruned,
               'TimeToPrune':time_to_prune,
+              'TimeToCreateGame':time_to_create_game
               
 
 

@@ -284,7 +284,7 @@ class Graph:
 
 
 
-def imm(graph, budget, model="IC", epsoid=0.5, l=1,seed=0,ground_set=None):
+def imm(graph, budget, model="IC", epsoid=0.5, l=2,seed=0,ground_set=None):
     """
     graph must be a file path to a .txt file of edge lists where the first line has the number of nodes in the first
     column, or it must be a networkx graph object with edge weights under the key 'weight'.

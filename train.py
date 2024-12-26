@@ -92,7 +92,7 @@ class Trainer:
         best_loss = float('inf')  # Initialize the best loss to infinity
         for i in range(1, self.args['numIters'] + 1):
 
-            print("{}/{}".format(i, self.args['numIters']))
+            # print("Iter:{}/numIters:{}".format(i, self.args['numIters']))
 
             train_examples = []
 

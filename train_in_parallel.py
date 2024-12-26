@@ -7,7 +7,7 @@ problems = [
             ]
 datasets = ['Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 'YouTube', 'Skitter']
 
-devices = {'MaxCover': 0, 'MaxCut': 1, 'IM': 0}
+devices = {'MaxCover': 0, 'MaxCut': 0, 'IM': 0}
 
 commands = []
 for problem in problems:

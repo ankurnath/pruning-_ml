@@ -1,0 +1,265 @@
+Solving MaxCover for Facebook Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Facebook
+Time elpased to create the game 0.0001
+{80: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 25.565059900283813
+Elapsed time (unpruned): 0.014
+A ground set has been given
+Elapsed time (pruned): 0.0058
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 3.75
+Ratio: 96.89999999999999
+Data has been saved to MaxCover/data/Facebook/MCTSPruner
+Solving MaxCover for Wiki Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Wiki
+Time elpased to create the game 0.0001
+{231: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 40.62714219093323
+Elapsed time (unpruned): 0.018
+A ground set has been given
+Elapsed time (pruned): 0.0078
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 2.36
+Ratio: 96.86
+Data has been saved to MaxCover/data/Wiki/MCTSPruner
+Solving MaxCover for Deezer Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Deezer
+Time elpased to create the game 0.0004
+{1566: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 64.88888382911682
+Elapsed time (unpruned): 0.1083
+A ground set has been given
+Elapsed time (pruned): 0.012
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.27999999999999997
+Ratio: 97.22
+Data has been saved to MaxCover/data/Deezer/MCTSPruner
+Solving MaxCover for DBLP Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/DBLP
+Time elpased to create the game 0.0021
+{3170: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 147.80496072769165
+Elapsed time (unpruned): 0.5751
+A ground set has been given
+Elapsed time (pruned): 0.0256
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.05
+Ratio: 96.6
+Data has been saved to MaxCover/data/DBLP/MCTSPruner
+Solving MaxCover for Slashdot Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Slashdot
+Time elpased to create the game 0.0005
+{118: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 168.1088662147522
+Elapsed time (unpruned): 0.1563
+A ground set has been given
+Elapsed time (pruned): 0.0303
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.22
+Ratio: 98.69
+Data has been saved to MaxCover/data/Slashdot/MCTSPruner
+Solving MaxCover for Twitter Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Twitter
+Time elpased to create the game 0.0007
+{114: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 382.39799666404724
+Elapsed time (unpruned): 0.2632
+A ground set has been given
+Elapsed time (pruned): 0.0827
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.19
+Ratio: 93.89
+Data has been saved to MaxCover/data/Twitter/MCTSPruner
+Solving MaxCover for YouTube Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/YouTube
+Time elpased to create the game 0.0077
+{331: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 2665.3241617679596
+Elapsed time (unpruned): 2.5699
+A ground set has been given
+Elapsed time (pruned): 0.3354
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.01
+Ratio: 99.2
+Data has been saved to MaxCover/data/YouTube/MCTSPruner
+Solving MaxCover for Skitter Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Skitter
+Time elpased to create the game 0.0169
+{84: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 7893.709870815277
+Elapsed time (unpruned): 4.9418
+A ground set has been given
+Elapsed time (pruned): 1.0288
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.01
+Ratio: 94.45
+Data has been saved to MaxCover/data/Skitter/MCTSPruner
+Solving MaxCut for Facebook Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Facebook
+Time elpased to create the game 0.0006
+{80: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 24.30412793159485
+Elapsed time (unpruned): 0.0078
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0011
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 3.75
+Ratio: 82.85
+Data has been saved to MaxCut/data/Facebook/MCTSPruner
+Solving MaxCut for Wiki Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Wiki
+Time elpased to create the game 0.0009
+{231: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 38.676976442337036
+Elapsed time (unpruned): 0.0122
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0018
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 2.36
+Ratio: 98.41
+Data has been saved to MaxCut/data/Wiki/MCTSPruner
+Solving MaxCut for Deezer Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Deezer
+Time elpased to create the game 0.0121
+{1566: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 62.58102869987488
+Elapsed time (unpruned): 0.0966
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0025
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.27999999999999997
+Ratio: 98.87
+Data has been saved to MaxCut/data/Deezer/MCTSPruner
+Solving MaxCut for DBLP Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/DBLP
+Time elpased to create the game 0.0788
+{3170: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 144.68961143493652
+Elapsed time (unpruned): 0.5242
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0091
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.05
+Ratio: 93.03
+Data has been saved to MaxCut/data/DBLP/MCTSPruner
+Solving MaxCut for Slashdot Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Slashdot
+Time elpased to create the game 0.0149
+{118: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 158.9392499923706
+Elapsed time (unpruned): 0.1183
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0034
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.22
+Ratio: 99.57000000000001
+Data has been saved to MaxCut/data/Slashdot/MCTSPruner
+Solving MaxCut for Twitter Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Twitter
+Time elpased to create the game 0.0218
+{114: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 375.48997926712036
+Elapsed time (unpruned): 0.1745
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0066
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.19
+Ratio: 96.1
+Data has been saved to MaxCut/data/Twitter/MCTSPruner
+Solving MaxCut for YouTube Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/YouTube
+Time elpased to create the game 0.2873
+{331: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 2529.6536195278168
+Elapsed time (unpruned): 2.1015
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.0651
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.01
+Ratio: 94.42
+Data has been saved to MaxCut/data/YouTube/MCTSPruner
+Solving MaxCut for Skitter Budget 100 Depth 150
+Data has been loaded from ../snap_dataset/test/Skitter
+Time elpased to create the game 0.4979
+{84: None Prior: 0.00 Count: 0 Value: 0}
+True
+time elapsed to pruned 7636.6987545490265
+Elapsed time (unpruned): 3.5232
+A ground set has been given
+Size of the ground set =  150
+Elapsed time (pruned): 0.1461
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 0.01
+Ratio: 66.82000000000001
+Data has been saved to MaxCut/data/Skitter/MCTSPruner
+All commands have been completed.

@@ -31,15 +31,27 @@ class Game:
             self.reverse_mapping = reverse_mapping
             # print(self.reverse_mapping)         
         else:
-            self.graph = graph
+            # self.graph = graph
             if train:
                 _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
+                print([graph.degree(node) for node in self.action_mask])
+                # *****
+                subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+                relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+                self.graph = relabeled_subgraph
+                self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+                self.reverse_mapping = reverse_mapping
+                
+                # *****
             else:
+                self.graph = graph
                 self.action_mask = [node for node in graph.nodes()]
-            
-        _action_mask = set(self.action_mask)
-        self.action_demask = [node for node in self.graph.nodes() if node 
-                                not in set(_action_mask)]
+        if train:
+            _action_mask = set(self.action_mask)
+            self.action_demask = [node for node in self.graph.nodes() if node 
+                                    not in set(_action_mask)]
+        else:
+            self.action_demask = []
 
     def get_init_state(self):
 
@@ -123,8 +135,9 @@ class IM(Game):
 
         if self.train:
         
-            _,self.action_mask,rr = heuristic(graph=graph,budget=budget)
-
+            coverage,self.action_mask,rr = heuristic(graph=graph,budget=budget)
+            print(np.max([graph.degree(node) for node in graph.nodes()]))
+            print('Coverage:',coverage)
             print([graph.degree(node) for node in self.action_mask])
 
             self.rr = rr

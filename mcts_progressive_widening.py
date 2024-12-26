@@ -81,21 +81,27 @@ class Node:
 
         if state is not None:
             self.state = state
-        # for a, prob in enumerate(action_probs):
-
-        # print(action_probs.shape)
-
-        action_probs = action_probs.reshape(action_probs.shape[0],)
 
 
-        best_action = None
-        best_action_prob = 0
+        if action_probs is not None:
+            # never been expanded before
+            action_probs = action_probs.reshape(action_probs.shape[0],)
+            self.action_probs = action_probs.reshape(action_probs.shape[0],)
+            self.actions = np.argsort(-action_probs)
+        
+        best_action = self.actions[len(self.children)]
+        best_action_prob = self.action_probs[len(self.children)]
+        # action_probs = action_probs.reshape(action_probs.shape[0],)
 
-        for i in range(action_probs.shape[0]):
 
-            if action_probs[i] > best_action_prob and i not in self.children:
-                best_action = i
-                best_action_prob = action_probs[i]
+        # best_action = None
+        # best_action_prob = 0
+
+        # for i in range(action_probs.shape[0]):
+
+        #     if action_probs[i] > best_action_prob and i not in self.children:
+        #         best_action = i
+        #         best_action_prob = action_probs[i]
 
         # # if best
 
@@ -109,7 +115,7 @@ class Node:
         
         if best_action in self.children:
             raise ValueError('Already expanded')
-        self.children[best_action] = Node(prior=action_probs[best_action])
+        self.children[best_action] = Node(prior=best_action_prob)
 
 
 
@@ -163,8 +169,8 @@ class MCTS_PROGRESSIVE:
 
         # print(self.args['num_simulations'])
 
-        for simulation in tqdm(range(self.args['num_simulations'])):
-        # for simulation in range(self.args['num_simulations']):
+        # for _ in tqdm(range(self.args['num_simulations'])):
+        for simulation in range(self.args['num_simulations']):
 
             # print('simulation',simulation)
 
@@ -186,18 +192,26 @@ class MCTS_PROGRESSIVE:
                     # print('********Progressive*********')
                 
                     # data = from_networkx(self.game.graph)
-                    data.x = torch.from_numpy(node.state)
-                    data = Batch.from_data_list([data])
-                    data = data.to(self.device)
+
+                    # if len(node.children) == 0:
+                        
+                    #     start = time.time()
+                    #     data.x = torch.from_numpy(node.state)
+                    #     data = Batch.from_data_list([data])
+                    #     data = data.to(self.device)
 
                     
-                    action_probs, value = model(data)
-                    action_probs = action_probs.cpu().detach().numpy()
-                    # value = value.item()
-                    valid_moves = self.game.get_valid_moves(node.state)
-                    action_probs = action_probs * valid_moves  # mask invalid moves
-                    action_probs /= np.sum(action_probs)
-                    node.expand(action_probs=action_probs)
+                    #     action_probs, value = model(data)
+                    #     end = time.time()
+                    #     print('Forward pass',round(end-start,4))
+                    #     action_probs = action_probs.cpu().detach().numpy()
+                    #     # value = value.item()
+                    #     valid_moves = self.game.get_valid_moves(node.state)
+                    #     action_probs = action_probs * valid_moves  # mask invalid moves
+                    #     action_probs /= np.sum(action_probs)
+                    #     node.expand(action_probs=action_probs)
+                    # else:
+                    node.expand()
 
                     # print('*****************')
 

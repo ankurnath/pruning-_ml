@@ -3,8 +3,8 @@ from utils import *
 class PolicyValueGCN(nn.Module):
     def __init__(self, in_channels = 1,out_channels=1):
         super(PolicyValueGCN, self).__init__()
-        self.conv1 = GCNConv(in_channels, 64)
-        self.conv2 = GCNConv(64, out_channels)
+        self.conv1 = GCNConv(in_channels, 16)
+        self.conv2 = GCNConv(16, out_channels)
         self.policy_head = nn.Linear(out_channels,1)
         self.value_head = nn.Linear(out_channels, 1)
         
