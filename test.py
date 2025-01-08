@@ -79,31 +79,31 @@ if __name__ == "__main__":
     
 
     start = time.time()
-    # k = 1000
-    # data = from_networkx(test_graph)
-    # data.x = torch.ones((test_graph.number_of_nodes(),1))
-    # data = Batch.from_data_list([data])
-    # actions_prob,value = model(data)
-    # actions_prob = actions_prob.reshape(actions_prob.shape[0],)
+    k = 1000
+    data = from_networkx(test_graph)
+    data.x = torch.ones((test_graph.number_of_nodes(),1))
+    data = Batch.from_data_list([data])
+    actions_prob,value = model(data)
+    actions_prob = actions_prob.reshape(actions_prob.shape[0],)
 
-    # top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
-    # subgraph=make_subgraph(test_graph,top_k_actions)
-    # relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
+    top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
+    subgraph=make_subgraph(test_graph,top_k_actions)
+    relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
 
 
 
-    game  = env(graph=test_graph,
-                heuristic=heuristic,
-                budget=budget,
-                depth=depth,
-                GNNpruner=None,
-                train=False)
-    # game  = env(graph=relabel_subgraph,
+    # game  = env(graph=test_graph,
     #             heuristic=heuristic,
     #             budget=budget,
     #             depth=depth,
     #             GNNpruner=None,
     #             train=False)
+    game  = env(graph=relabel_subgraph,
+                heuristic=heuristic,
+                budget=budget,
+                depth=depth,
+                GNNpruner=None,
+                train=False)
 
     end = time.time()
 
@@ -213,6 +213,6 @@ if __name__ == "__main__":
 
    
     df = pd.DataFrame(df,index=[0])
-    # save_to_pickle(df,save_file_path)
+    save_to_pickle(df,save_file_path)
    
 
