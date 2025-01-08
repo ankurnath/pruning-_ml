@@ -36,7 +36,7 @@ def get_gains(graph,ground_set):
 
         gains={node:graph.degree(node)+1 for node in graph.nodes()}
     else:
-        print('A ground set has been given')
+        # print('A ground set has been given')
         gains={node:graph.degree(node)+1 for node in ground_set}
         # print('Size of ground set',len(gains))
     return gains

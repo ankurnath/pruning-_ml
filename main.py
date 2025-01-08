@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
     parser.add_argument("--problem",type=str,default='MaxCover')
     parser.add_argument("--budget",type=int,default=100)
-    parser.add_argument("--depth",type=int,default=100)
+    parser.add_argument("--depth",type=int,default=50)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
     args = parser.parse_args()
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
-        'batch_size': 64,
+        'batch_size': 10,
         'numIters': 10,                                # Total number of training iterations
         'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
         'numEps': 1,                                  # Number of full games (episodes) to run during each iteration

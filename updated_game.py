@@ -96,8 +96,11 @@ class Game:
         
         
         nodes = np.where(state == 0)[0]
-        subgraph = make_subgraph(graph=self.graph,nodes=nodes)
-        reward,_,_ = self.heuristic(graph=subgraph,budget=self.budget)
+        # subgraph = make_subgraph(graph=self.graph,nodes=nodes)
+        # reward,_,_ = self.heuristic(graph=subgraph,budget=self.budget)
+        reward,_,_ = self.heuristic(graph=self.graph,
+                                    budget=self.budget,
+                                    ground_set=nodes)
         return reward/self.max_reward
 
 

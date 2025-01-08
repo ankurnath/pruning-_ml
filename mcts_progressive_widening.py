@@ -157,86 +157,53 @@ class MCTS_PROGRESSIVE:
         action_probs, value = model(data)
         action_probs = action_probs.cpu().detach().numpy()
         
-        valid_moves = self.game.get_valid_moves(state)
-        action_probs = action_probs * valid_moves  # mask invalid moves
+        # valid_moves = self.game.get_valid_moves(state)
+        # action_probs = action_probs * valid_moves  # mask invalid moves
+        action_probs*=state
         action_probs /= np.sum(action_probs)
         # print(action_probs)
 
         # pr
-        root.expand(state,action_probs)
+        # root.expand(state,action_probs)
+        root.expand(action_probs=action_probs)
         print(root.children)
-        print(root.expanded(self.k))
+        # print(root.expanded(self.k))
 
         # print(self.args['num_simulations'])
 
-        # for _ in tqdm(range(self.args['num_simulations'])):
-        for simulation in range(self.args['num_simulations']):
+        for _ in tqdm(range(self.args['num_simulations'])):
+        # for simulation in range(self.args['num_simulations']):
 
-            # print('simulation',simulation)
 
         # for _ in range(1):
             node = root
             search_path = [node]
 
-            # SELECT
-            # print('Node expanded',node.expanded(self.k))
-            # print(np.floor((node.visit_count)**self.k))
 
+            actions =[]
             while len(node.children) > 0:
             # while node.expanded(self.k):
 
                 ############
 
                 if not node.expanded(self.k):
-
-                    # print('********Progressive*********')
-                
-                    # data = from_networkx(self.game.graph)
-
-                    # if len(node.children) == 0:
-                        
-                    #     start = time.time()
-                    #     data.x = torch.from_numpy(node.state)
-                    #     data = Batch.from_data_list([data])
-                    #     data = data.to(self.device)
-
-                    
-                    #     action_probs, value = model(data)
-                    #     end = time.time()
-                    #     print('Forward pass',round(end-start,4))
-                    #     action_probs = action_probs.cpu().detach().numpy()
-                    #     # value = value.item()
-                    #     valid_moves = self.game.get_valid_moves(node.state)
-                    #     action_probs = action_probs * valid_moves  # mask invalid moves
-                    #     action_probs /= np.sum(action_probs)
-                    #     node.expand(action_probs=action_probs)
-                    # else:
                     node.expand()
-
-                    # print('*****************')
 
 
                 ############
                 action, node = node.select_child()
-                # print(action)
+                actions.append(action)
+
                 search_path.append(node)
 
-            # print('Length of the search path',len(search_path))
 
-            # print('Length of the search path',len(search_path))
+            # parent = search_path[-2]
+            # state = parent.state
 
-            parent = search_path[-2]
-            state = parent.state
 
-            # print(state)
-            # Now we're at a leaf node and we would like to expand
-            # Players always play from their own perspective
-            next_state = self.game.get_next_state(state,action=action)
-            # print(next_state)
-            # Get the board from the perspective of the other player
-            # next_state = self.game.get_canonical_board(next_state, player=-1)
-
-            # The value of the new state from the perspective of the other player
+            # next_state = self.game.get_next_state(state,action=action)
+            state[actions]  = 0
+            next_state = state
             value = self.game.get_reward_for_player(next_state)
 
             # print('Value',value)
@@ -255,15 +222,17 @@ class MCTS_PROGRESSIVE:
                 action_probs, value = model(data)
                 action_probs = action_probs.cpu().detach().numpy()
                 value = value.item()
-                valid_moves = self.game.get_valid_moves(next_state)
-                action_probs = action_probs * valid_moves  # mask invalid moves
+                # valid_moves = self.game.get_valid_moves(next_state)
+                # action_probs = action_probs * valid_moves  # mask invalid moves
+                action_probs*=state
                 action_probs /= np.sum(action_probs)
                 # node.expand(next_state, parent.to_play * -1, action_probs)
-                node.expand(next_state,action_probs)
+                # node.expand(next_state,action_probs)
+                node.expand(action_probs=action_probs)
                 # print('Number of children of the last node of the search path',len(node.children))
 
             self.backpropagate(search_path, value)
-
+            state[actions] = 1  # reset state
         return root
 
     def backpropagate(self, search_path, value):
@@ -274,7 +243,6 @@ class MCTS_PROGRESSIVE:
         for node in reversed(search_path):
             node.value_sum += value 
             node.visit_count += 1
-
 
 
 
