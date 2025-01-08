@@ -139,9 +139,16 @@ class IM(Game):
         if self.train:
         
             coverage,self.action_mask,rr = heuristic(graph=graph,budget=budget)
+            subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+            relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+            self.graph = relabeled_subgraph
+            self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+            self.reverse_mapping = reverse_mapping
+
+
             print(np.max([graph.degree(node) for node in graph.nodes()]))
             print('Coverage:',coverage)
-            print([graph.degree(node) for node in self.action_mask])
+            print([self.graph.degree(node) for node in self.action_mask])
 
             self.rr = rr
 
@@ -161,8 +168,12 @@ class IM(Game):
         self.max_reward = graph.number_of_nodes()
             
         _action_mask = set(self.action_mask)
-        self.action_demask = [node for node in self.graph.nodes() if node 
-                                not in set(_action_mask)]
+        if self.train:
+
+            self.action_demask = [node for node in self.graph.nodes() if node 
+                                    not in set(_action_mask)]
+        else:
+            self.action_demask = []
 
 
         

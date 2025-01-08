@@ -7,9 +7,9 @@ problems = [
             'IM'
             ]
 datasets = [
-            'Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 
-            # 'YouTube',
-            #   'Skitter'
+            # 'Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 
+            'YouTube',
+              'Skitter'
             ]
 
 devices = {'MaxCover': 0, 'MaxCut': 0, 'IM': 0}
