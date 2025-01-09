@@ -82,12 +82,14 @@ if __name__ == "__main__":
     k = 1000
     data = from_networkx(test_graph)
     data.x = torch.ones((test_graph.number_of_nodes(),1))
+
+    
     data = Batch.from_data_list([data])
     actions_prob,value = model(data)
     actions_prob = actions_prob.reshape(actions_prob.shape[0],)
 
     top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
-    
+
     # print([test_graph.degree(node) for node in top_k_actions])
     subgraph=make_subgraph(test_graph,top_k_actions)
     relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
