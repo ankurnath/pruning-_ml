@@ -5,9 +5,9 @@ def get_gains(graph,ground_set):
 
         gains={node:graph.degree(node) for node in graph.nodes()}
     else:
-        print('A ground set has been given')
+        # print('A ground set has been given')
         gains={node:graph.degree(node) for node in ground_set}
-        print('Size of the ground set = ',len(gains))
+        # print('Size of the ground set = ',len(gains))
 
     
     return gains
@@ -41,7 +41,7 @@ def greedy(graph,budget,ground_set=None):
         selected_element=max(gains, key=gains.get)
 
         if gains[selected_element]<=0:
-            print('All edges are already covered')
+            # print('All edges are already covered')
             break
         solution.append(selected_element)
 

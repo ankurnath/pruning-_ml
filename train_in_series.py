@@ -5,7 +5,7 @@ problems = [
             'IM'
             ]
 datasets = [
-            # 'Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter', 
+            'Facebook', 'Wiki', 'Deezer', 'DBLP', 'Slashdot', 'Twitter',
             'YouTube',
             'Skitter'
             ]

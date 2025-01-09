@@ -34,9 +34,13 @@ class Game:
             # self.graph = graph
             if train:
                 _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
-                print([graph.degree(node) for node in self.action_mask])
+                print('Action mask length:',len(self.action_mask))
+                # print([graph.degree(node) for node in self.action_mask])
                 # *****
                 subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+                # subgraph = graph.subgraph(self.action_mask).copy()
+                # print('Subgraph:Node',subgraph.number_of_nodes())
+                # print('Subgraph:Edges',subgraph.number_of_edges())
                 relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
                 self.graph = relabeled_subgraph
                 self.action_mask =[ forward_mapping[action] for action in self.action_mask]
@@ -96,11 +100,14 @@ class Game:
         
         
         nodes = np.where(state == 0)[0]
+        # print('Nodes:',nodes)
+        # print(len(nodes))
         # subgraph = make_subgraph(graph=self.graph,nodes=nodes)
         # reward,_,_ = self.heuristic(graph=subgraph,budget=self.budget)
         reward,_,_ = self.heuristic(graph=self.graph,
                                     budget=self.budget,
                                     ground_set=nodes)
+        # print('Reward:',reward/self.max_reward)
         return reward/self.max_reward
 
 

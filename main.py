@@ -83,7 +83,9 @@ if __name__ == "__main__":
     
     if problem =='MaxCover':
     
-        game  = MaxCover(graph=graph,heuristic=maxcover_heuristic,budget=budget,depth=depth,GNNpruner=None,train=True)
+        game  = MaxCover(graph=graph,heuristic=maxcover_heuristic,
+                         budget=budget,depth=depth,
+                         GNNpruner=None,train=True)
     elif problem =='MaxCut':
         game  = MaxCut(graph=graph,heuristic=maxcut_heuristic,
                        budget=budget,depth=depth,

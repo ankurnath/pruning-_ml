@@ -87,17 +87,19 @@ if __name__ == "__main__":
     actions_prob = actions_prob.reshape(actions_prob.shape[0],)
 
     top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
+    
+    # print([test_graph.degree(node) for node in top_k_actions])
     subgraph=make_subgraph(test_graph,top_k_actions)
     relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
 
 
 
-    # game  = env(graph=test_graph,
-    #             heuristic=heuristic,
-    #             budget=budget,
-    #             depth=depth,
-    #             GNNpruner=None,
-    #             train=False)
+    # # game  = env(graph=test_graph,
+    # #             heuristic=heuristic,
+    # #             budget=budget,
+    # #             depth=depth,
+    # #             GNNpruner=None,
+    # #             train=False)
     game  = env(graph=relabel_subgraph,
                 heuristic=heuristic,
                 budget=budget,
@@ -150,11 +152,12 @@ if __name__ == "__main__":
 
     time_to_prune = end-start
 
-    print('time elapsed to pruned',time_to_prune)
+    # print('time elapsed to pruned',time_to_prune)
 
 
-    # print([test_graph.degree(node) for node in pruned_universe])
-    # pruned_universe = [reverse_transformation[node] for node in pruned_universe]
+    # # print([test_graph.degree(node) for node in pruned_universe])
+    pruned_universe = [reverse_transformation[node] for node in pruned_universe]
+    # pruned_universe = top_k_actions
     Pg = len(pruned_universe)/test_graph.number_of_nodes()
     start = time.time()
     objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
@@ -166,6 +169,7 @@ if __name__ == "__main__":
     objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
                                                                  budget=budget,
                                                                  ground_set=pruned_universe)
+    
     end = time.time()
     time_pruned = round(end-start,4)
     print('Elapsed time (pruned):',time_pruned)
