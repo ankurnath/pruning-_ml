@@ -13,6 +13,7 @@ import heapq
 def ucb_score(parent,child):
     prior_score = child.prior * np.sqrt(parent.visit_count) / (child.visit_count + 1)
     return  child.value() + prior_score 
+    
 
 
 

@@ -143,7 +143,31 @@ class IM(Game):
         self.train = train
         self.graph = graph
 
-        if self.train:
+
+        if GNNpruner:
+            self.action_mask = GNNpruner.test(test_graph=graph)
+            subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+            relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+            self.graph = relabeled_subgraph
+            self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+            self.reverse_mapping = reverse_mapping
+
+
+            _,_,rr = heuristic(graph=relabeled_subgraph,budget=budget)
+            self.rr = rr
+
+            rr_degree = defaultdict(int)
+            node_rr_set = defaultdict(list)
+            
+            for j,rr in enumerate(rr):
+                for rr_node in rr:
+                    rr_degree[rr_node]+=1
+                    node_rr_set[rr_node].append(j)
+            
+            self.rr_degree= rr_degree
+            self.node_rr_set = node_rr_set
+
+        elif self.train:
         
             coverage,self.action_mask,rr = heuristic(graph=graph,budget=budget)
             subgraph = make_subgraph(graph=graph,nodes=self.action_mask)

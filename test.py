@@ -90,7 +90,9 @@ if __name__ == "__main__":
 
     top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
 
-    # print([test_graph.degree(node) for node in top_k_actions])
+    print([test_graph.degree(node) for node in top_k_actions])
+
+    print(sorted([test_graph.degree(node) for node in test_graph.nodes()])[::-1][:k])
     subgraph=make_subgraph(test_graph,top_k_actions)
     relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
 

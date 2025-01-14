@@ -18,8 +18,9 @@ if __name__ == "__main__":
     parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
     parser.add_argument("--problem",type=str,default='MaxCover')
     parser.add_argument("--budget",type=int,default=100)
-    parser.add_argument("--depth",type=int,default=50)
+    parser.add_argument("--depth",type=int,default=100)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
+    parser.add_argument("--gnnpruner", type=bool,default=True, help="cuda device")
     args = parser.parse_args()
 
     # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
@@ -44,18 +45,25 @@ if __name__ == "__main__":
     budget = args.budget
     depth = args.depth
     problem = args.problem
+    pre_prune = args.gnnpruner
 
     print(f'Training for the problem {problem} Dataset {dataset} Budget {budget}')
 
     save_folder = f'pretrained/{problem}/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
-    save_file_path = os.path.join(save_folder,'best.pth')
+
+
+    if pre_prune:
+        save_file_path = os.path.join(save_folder,'best_model_gnnpruner.pth')
+    else: 
+        save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
         'batch_size': 10,
         'numIters': 10,                                # Total number of training iterations
         'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
-        'numEps': 1,                                  # Number of full games (episodes) to run during each iteration
+        'numEps': 1,
+                                                                            # Number of full games (episodes) to run during each iteration
         # 'numItersForTrainExamplesHistory': 20,
         'epochs': 1,                                    # Number of epochs of training per iteration
         'checkpoint_path': save_file_path                # location to save latest set of weights
@@ -64,40 +72,59 @@ if __name__ == "__main__":
 
 
     model = PolicyValueGCN()
-
-    
-    
-    graph = load_graph(f'../snap_dataset/train/{dataset}')
-    
-
-    # pruner = GNNpruner()
-
-    # save_folder =  f'pretrained/Maxcover/GNNpruner/{dataset}'
-
-    # pruner.train(train_graph=graph,budget=budget,heuristic=greedy,save_folder =save_folder)
-
-
-    # load_model_path = os.path.join(save_folder,'best_model.pth')
-    # pruner.model.load_state_dict(torch.load(load_model_path))
-    # game  = MaxCover(graph=graph,heuristic=greedy,budget=budget,depth=depth,GNNpruner=pruner)
+    train_graph = load_graph(f'../snap_dataset/train/{dataset}')
     
     if problem =='MaxCover':
-    
-        game  = MaxCover(graph=graph,heuristic=maxcover_heuristic,
-                         budget=budget,depth=depth,
-                         GNNpruner=None,train=True)
+        heuristic = maxcover_heuristic
+        problem = MaxCover
     elif problem =='MaxCut':
-        game  = MaxCut(graph=graph,heuristic=maxcut_heuristic,
-                       budget=budget,depth=depth,
-                       GNNpruner=None,train=True)
-
+        heuristic = maxcut_heuristic
+        problem = MaxCut
     elif problem == 'IM':
-        game = IM(graph=graph,heuristic=imm,
-                       budget=budget,depth=depth,
-                       GNNpruner=None,train=True)
+        heuristic = imm
+        problem = IM
 
     else:
         raise ValueError('Unknown Problem')
+    
+
+
+    if pre_prune:
+
+        pruner = GNNpruner()
+        save_folder =  f'pretrained/{args.problem}/GNNpruner/{dataset}'
+        pruner.train(train_graph=train_graph,budget=budget,heuristic=heuristic,save_folder =save_folder)
+        load_model_path = os.path.join(save_folder,'best_model.pth')
+        pruner.model.load_state_dict(torch.load(load_model_path,weights_only=False))
+
+    else:
+        pruner = None
+
+    game = problem(graph=train_graph,
+                  heuristic=heuristic,
+                  budget=budget,
+                  depth=depth,
+                  GNNpruner=pruner,
+                  train=True)
+    # game  = MaxCover(graph=graph,heuristic=greedy,budget=budget,depth=depth,GNNpruner=pruner)
+    
+    # if problem =='MaxCover':
+    
+    #     game  = MaxCover(graph=graph,heuristic=maxcover_heuristic,
+    #                      budget=budget,depth=depth,
+    #                      GNNpruner=None,train=True)
+    # elif problem =='MaxCut':
+    #     game  = MaxCut(graph=graph,heuristic=maxcut_heuristic,
+    #                    budget=budget,depth=depth,
+    #                    GNNpruner=None,train=True)
+
+    # elif problem == 'IM':
+    #     game = IM(graph=graph,heuristic=imm,
+    #                    budget=budget,depth=depth,
+    #                    GNNpruner=None,train=True)
+
+    # else:
+    #     raise ValueError('Unknown Problem')
      
 
     trainer = Trainer(model=model,game=game,args= mcts_args)

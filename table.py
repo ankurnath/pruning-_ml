@@ -9,6 +9,7 @@ for problem in problems:
     folder = f'{problem}/data'
     datasets = os.listdir(folder)
     df = defaultdict(list)
+    print('\multicolumn{1}{|l|}{Dataset}  & \multicolumn{1}{l|}{$P_g$} & \multicolumn{1}{l|}{$P_r$} \\\ \hline')
     for dataset in datasets:
         file_path = os.path.join(folder,dataset,'MCTSPruner')
         data = load_from_pickle(file_path=file_path,quiet=True)
