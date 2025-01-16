@@ -125,10 +125,13 @@ class MaxCover(Game):
 class MaxCut(Game):
     def __init__(self, graph, heuristic, budget, depth, GNNpruner,train):
         # Properly call the parent class's initializer using `super()`
-        super().__init__(graph, heuristic, budget, depth, GNNpruner,train)
-        
+
         # Correctly access the `max_reward` attribute from the `graph` object
-        self.max_reward = self.graph.number_of_edges()
+        
+        super().__init__(graph, heuristic, budget, depth, GNNpruner,train)
+        self.max_reward = graph.number_of_edges()
+        
+        
 
 
 

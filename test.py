@@ -7,17 +7,20 @@ from updated_game import MaxCover,MaxCut,IM
 from greedy_maxcover import greedy as maxcover_heuristic
 from greedy_maxcut import greedy as maxcut_heuristic
 from imm import imm
+from gnnpruner_train import *
 
 from mcts_progressive_widening import MCTS_PROGRESSIVE
 
 if __name__ == "__main__":
     parser = ArgumentParser()
 
-    parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
-    parser.add_argument("--problem",type=str,default='MaxCover')
+    parser.add_argument( "--dataset", type=str, default='Twitter', help="Name of the dataset to be used (default: 'Facebook')" )
+    parser.add_argument("--problem",type=str,default='MaxCut')
     parser.add_argument("--budget",type=int,default=100)
     parser.add_argument("--depth",type=int,default=150)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
+    parser.add_argument("--gnnpruner", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
+    
     args = parser.parse_args()
 
     # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -39,12 +42,18 @@ if __name__ == "__main__":
     budget = args.budget
     depth = args.depth
     problem = args.problem
+    pre_prune = args.gnnpruner
 
     print(f'Solving {problem} for {dataset} Budget {budget} Depth {depth}')
 
     save_folder = f'pretrained/{problem}/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
-    save_file_path = os.path.join(save_folder,'best.pth')
+
+    if pre_prune:
+        save_file_path = os.path.join(save_folder,'best_model_gnnpruner.pth')
+        
+    else:
+        save_file_path = os.path.join(save_folder,'best.pth')
 
     model.load_state_dict(torch.load(save_file_path,weights_only=False))
     
@@ -76,40 +85,52 @@ if __name__ == "__main__":
 
     else:
         raise ValueError('Unknown Problem')
-    
 
     start = time.time()
-    k = 1000
-    data = from_networkx(test_graph)
-    data.x = torch.ones((test_graph.number_of_nodes(),1))
-
-    
-    data = Batch.from_data_list([data])
-    actions_prob,value = model(data)
-    actions_prob = actions_prob.reshape(actions_prob.shape[0],)
-
-    top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
-
-    print([test_graph.degree(node) for node in top_k_actions])
-
-    print(sorted([test_graph.degree(node) for node in test_graph.nodes()])[::-1][:k])
-    subgraph=make_subgraph(test_graph,top_k_actions)
-    relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
+    if pre_prune:
+        pruner = GNNpruner()
+        save_folder =  f'pretrained/{problem}/GNNpruner/{dataset}'
+        load_model_path = os.path.join(save_folder,'best_model.pth')
+        pruner.model.load_state_dict(torch.load(load_model_path,weights_only=False))
 
 
+    else:
+        
+        k = 100
+        data = from_networkx(test_graph)
+        data.x = torch.ones((test_graph.number_of_nodes(),1))
 
-    # # game  = env(graph=test_graph,
-    # #             heuristic=heuristic,
-    # #             budget=budget,
-    # #             depth=depth,
-    # #             GNNpruner=None,
-    # #             train=False)
-    game  = env(graph=relabel_subgraph,
-                heuristic=heuristic,
-                budget=budget,
-                depth=depth,
-                GNNpruner=None,
-                train=False)
+        
+        data = Batch.from_data_list([data])
+        actions_prob,value = model(data)
+        actions_prob = actions_prob.reshape(actions_prob.shape[0],)
+
+        top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
+
+        
+        print('TOP-K actions')
+        print([test_graph.degree(node) for node in top_k_actions[:100]])
+        # print(test_graph.subgraph(top_k_actions).number_of_nodes())
+        print('High degree nodes')
+        print(sorted([test_graph.degree(node) for node in test_graph.nodes()])[::-1][:100])
+        subgraph = make_subgraph(test_graph,top_k_actions)
+        relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
+
+
+    if pre_prune: 
+        game  = env(graph=test_graph,
+                    heuristic=heuristic,
+                    budget=budget,
+                    depth=depth,
+                    GNNpruner=pruner,
+                    train=False)
+    else:
+        game  = env(graph=relabel_subgraph,
+                    heuristic=heuristic,
+                    budget=budget,
+                    depth=depth,
+                    GNNpruner=None,
+                    train=False)
 
     end = time.time()
 
@@ -121,7 +142,7 @@ if __name__ == "__main__":
    
     mcts = MCTS_PROGRESSIVE(game=game,
                             model=model,
-                            k=0.5,
+                            k=0.1,
                             args=args
                             )
 
@@ -160,8 +181,15 @@ if __name__ == "__main__":
 
 
     # # print([test_graph.degree(node) for node in pruned_universe])
-    pruned_universe = [reverse_transformation[node] for node in pruned_universe]
+    # print(pruned_universe)
+
+    if pre_prune:
+        pruned_universe = [game.reverse_mapping[node] for node in pruned_universe]
+    else:
+        pruned_universe = [reverse_transformation[node] for node in pruned_universe]
     # pruned_universe = top_k_actions
+    print([test_graph.degree(node) for node in pruned_universe])
+    
     Pg = len(pruned_universe)/test_graph.number_of_nodes()
     start = time.time()
     objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
@@ -193,7 +221,12 @@ if __name__ == "__main__":
 
     save_folder = f'{problem}/data/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
-    save_file_path = os.path.join(save_folder,'MCTSPruner')
+
+    if pre_prune:
+        save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner')
+
+    else:
+        save_file_path = os.path.join(save_folder,'MCTSPruner')
 
     
 

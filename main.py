@@ -15,12 +15,12 @@ if __name__ == "__main__":
     torch.cuda.manual_seed(42)
     parser = ArgumentParser()
 
-    parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
-    parser.add_argument("--problem",type=str,default='MaxCover')
+    parser.add_argument( "--dataset", type=str, default='Twitter', help="Name of the dataset to be used (default: 'Facebook')" )
+    parser.add_argument("--problem",type=str,default='MaxCut')
     parser.add_argument("--budget",type=int,default=100)
-    parser.add_argument("--depth",type=int,default=100)
+    parser.add_argument("--depth",type=int,default=50)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
-    parser.add_argument("--gnnpruner", type=bool,default=True, help="cuda device")
+    parser.add_argument("--gnnpruner", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
     args = parser.parse_args()
 
     # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 

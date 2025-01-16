@@ -28,7 +28,7 @@ class GNNpruner:
         if model:
             self.model = model
         else:
-            self.model = GCN(num_features=1,hidden_channels=16)
+            self.model = GCN(num_features=1,hidden_channels=64)
 
     def test(self,test_graph):
 
