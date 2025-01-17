@@ -5,6 +5,7 @@ from model import PolicyValueGCN
 from updated_game import MaxCover,MaxCut,IM
 
 from greedy_maxcover import greedy as maxcover_heuristic
+from greedy_original_maxcover import greedy_maxcover
 from greedy_maxcut import greedy as maxcut_heuristic
 from imm import imm
 from gnnpruner_train import *
@@ -72,7 +73,8 @@ if __name__ == "__main__":
     test_graph = load_graph(f'../snap_dataset/test/{dataset}')
 
     if problem == 'MaxCover':
-        heuristic = maxcover_heuristic
+        # heuristic = maxcover_heuristic
+        heuristic = greedy_maxcover
         env = MaxCover
 
     elif problem == 'MaxCut':
@@ -85,6 +87,8 @@ if __name__ == "__main__":
 
     else:
         raise ValueError('Unknown Problem')
+    
+    START = time.time()
 
     start = time.time()
     if pre_prune:
@@ -96,7 +100,7 @@ if __name__ == "__main__":
 
     else:
         
-        k = 100
+        k = 1000
         data = from_networkx(test_graph)
         data.x = torch.ones((test_graph.number_of_nodes(),1))
 
@@ -108,11 +112,11 @@ if __name__ == "__main__":
         top_k_actions = torch.topk(actions_prob,k=k).indices.numpy()
 
         
-        print('TOP-K actions')
-        print([test_graph.degree(node) for node in top_k_actions[:100]])
+        # print('TOP-K actions')
+        # print([test_graph.degree(node) for node in top_k_actions[:100]])
         # print(test_graph.subgraph(top_k_actions).number_of_nodes())
-        print('High degree nodes')
-        print(sorted([test_graph.degree(node) for node in test_graph.nodes()])[::-1][:100])
+        # print('High degree nodes')
+        # print(sorted([test_graph.degree(node) for node in test_graph.nodes()])[::-1][:100])
         subgraph = make_subgraph(test_graph,top_k_actions)
         relabel_subgraph,_,reverse_transformation=relabel_graph(subgraph)
 
@@ -188,7 +192,13 @@ if __name__ == "__main__":
     else:
         pruned_universe = [reverse_transformation[node] for node in pruned_universe]
     # pruned_universe = top_k_actions
-    print([test_graph.degree(node) for node in pruned_universe])
+    # print([test_graph.degree(node) for node in pruned_universe])
+
+    END = time.time()
+
+    total_time_to_prune = END-START
+
+    print("Total time to prune",total_time_to_prune)
     
     Pg = len(pruned_universe)/test_graph.number_of_nodes()
     start = time.time()
@@ -246,7 +256,10 @@ if __name__ == "__main__":
             #   'Queries(%)': round(queries_pruned/queries_unpruned,4)*100,
               'TimeRatio': time_pruned/time_unpruned,
               'TimeToPrune':time_to_prune,
-              'TimeToCreateGame':time_to_create_game
+              'TimeToCreateGame':time_to_create_game,
+              'TotalTimeToPrune':total_time_to_prune,
+              'Speedup':time_unpruned/time_pruned
+              
               
 
 
