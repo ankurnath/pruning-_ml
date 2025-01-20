@@ -3,8 +3,8 @@ import subprocess
 # Define the commands to be run in parallel
 problems = [
             'MaxCover', 
-            # 'MaxCut',
-            # 'IM'
+            'MaxCut',
+            'IM'
             ]
 datasets = [
             'Facebook', 
