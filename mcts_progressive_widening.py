@@ -158,9 +158,9 @@ class MCTS_PROGRESSIVE:
         action_probs, value = model(data)
         action_probs = action_probs.cpu().detach().numpy()
         
-        # valid_moves = self.game.get_valid_moves(state)
-        # action_probs = action_probs * valid_moves  # mask invalid moves
-        action_probs*=state
+        valid_moves = self.game.get_valid_moves(state)
+        action_probs = action_probs * valid_moves  # mask invalid moves
+        # action_probs*=state
         action_probs /= np.sum(action_probs)
         # print(action_probs)
 
@@ -172,8 +172,8 @@ class MCTS_PROGRESSIVE:
 
         # print(self.args['num_simulations'])
 
-        for _ in tqdm(range(self.args['num_simulations'])):
-        # for simulation in range(self.args['num_simulations']):
+        # for _ in tqdm(range(self.args['num_simulations'])):
+        for simulation in range(self.args['num_simulations']):
 
 
         # for _ in range(1):
@@ -223,9 +223,9 @@ class MCTS_PROGRESSIVE:
                 action_probs, value = model(data)
                 action_probs = action_probs.cpu().detach().numpy()
                 value = value.item()
-                # valid_moves = self.game.get_valid_moves(next_state)
-                # action_probs = action_probs * valid_moves  # mask invalid moves
-                action_probs*=state
+                valid_moves = self.game.get_valid_moves(next_state)
+                action_probs = action_probs * valid_moves  # mask invalid moves
+                # action_probs*=state
                 action_probs /= np.sum(action_probs)
                 # node.expand(next_state, parent.to_play * -1, action_probs)
                 # node.expand(next_state,action_probs)

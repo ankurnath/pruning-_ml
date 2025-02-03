@@ -7,7 +7,15 @@ from utils import *
 
 
 class Game:
-    def __init__(self,graph,heuristic,budget,depth,GNNpruner = None,train=True):
+    def __init__(self,
+                 graph,
+                 heuristic,
+                 budget,
+                 depth,
+                 pruned_universe=None,
+                 pre_prune=False,
+                 GNNpruner = None,
+                 train=False):
 
 
 
@@ -17,43 +25,50 @@ class Game:
         
 
 
-        if GNNpruner:
-            self.action_mask = GNNpruner.test(test_graph=graph)
-            # print('Action mask length:',len(self.action_mask),self.action_mask)
+        # if GNNpruner:
+        #     self.action_mask = GNNpruner.test(test_graph=graph)
+        #     # print(self.action_mask)
+        #     print('Action mask length:',len(self.action_mask))
+        #     print([graph.degree(node) for node in self.action_mask])
+        #     # print('Action mask length:',len(self.action_mask),self.action_mask)
 
+        #     subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+
+        #     relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+        #     # print(relabeled_subgraph.number_of_nodes())
+        #     self.graph = relabeled_subgraph
+        #     self.foward_mapping = forward_mapping
+        #     self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+            
+        #     self.reverse_mapping = reverse_mapping
+        #     # print(self.reverse_mapping)         
+        # else:
+            # self.graph = graph
+        if train:
+            _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
+            print('Action mask length:',len(self.action_mask))
+            
+            # *****
             subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
-
             relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
-            # print(relabeled_subgraph.number_of_nodes())
             self.graph = relabeled_subgraph
-            self.foward_mapping = forward_mapping
             self.action_mask =[ forward_mapping[action] for action in self.action_mask]
             self.reverse_mapping = reverse_mapping
-            # print(self.reverse_mapping)         
+            
+            # *****
+        elif pruned_universe is not None:
+            self.graph = graph
+            # self.action_mask = [node for node in graph.nodes()]
+            self.action_mask = pruned_universe
+
         else:
-            # self.graph = graph
-            if train:
-                _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
-                print('Action mask length:',len(self.action_mask))
-                # print([graph.degree(node) for node in self.action_mask])
-                # *****
-                subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
-                # subgraph = graph.subgraph(self.action_mask).copy()
-                # print('Subgraph:Node',subgraph.number_of_nodes())
-                # print('Subgraph:Edges',subgraph.number_of_edges())
-                relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
-                self.graph = relabeled_subgraph
-                self.action_mask =[ forward_mapping[action] for action in self.action_mask]
-                self.reverse_mapping = reverse_mapping
-                
-                # *****
-            else:
-                self.graph = graph
-                self.action_mask = [node for node in graph.nodes()]
-        if train:
+            self.graph = graph
+            self.action_mask = [node for node in graph.nodes()]
+        
+        if train or pruned_universe is not None:
             _action_mask = set(self.action_mask)
             self.action_demask = [node for node in self.graph.nodes() if node 
-                                    not in set(_action_mask)]
+                                        not in set(_action_mask)]
         else:
             self.action_demask = []
 
@@ -114,9 +129,11 @@ class Game:
         
     
 class MaxCover(Game):
-    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train):
+    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train,pruned_universe):
         # Properly call the parent class's initializer using `super()`
-        super().__init__(graph, heuristic, budget, depth, GNNpruner,train)
+        super().__init__(graph=graph, heuristic= heuristic, budget=budget, 
+                         depth=depth, GNNpruner=GNNpruner,train=train,
+                         pruned_universe=pruned_universe)
         
         # Correctly access the `max_reward` attribute from the `graph` object
         self.max_reward = self.graph.number_of_nodes()

@@ -5,6 +5,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from utils import load_from_pickle  # Assuming `load_from_pickle` is defined here
 
+from greedy_maxcover import greedy as maxcover_heuristic
+from greedy_maxcut import greedy as maxcut_heuristic
+from imm import imm
+
 # Specify problems
 problems = ['MaxCover']
 
@@ -45,7 +49,7 @@ for problem in problems:
     plt.yticks(fontsize =17)
     # Customize legend
     plt.legend(
-        title="Algorithm", 
+        # title="Algorithm", 
         fontsize=17, 
         title_fontsize=17,
         loc='upper right', 

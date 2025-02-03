@@ -20,12 +20,11 @@ if __name__ == "__main__":
     parser.add_argument("--budget",type=int,default=100)
     parser.add_argument("--depth",type=int,default=50)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
-    parser.add_argument("--gnnpruner", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
+    parser.add_argument("--pre_prune", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
+    parser.add_argument("--guide_with_expert", type=bool,default=False, help="Guide with expert")
     args = parser.parse_args()
 
-    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
-
-    # Get the number of CUDA devices
+    
     num_devices = torch.cuda.device_count()
     for i in range(num_devices):
         device_name = torch.cuda.get_device_name(i)
@@ -45,7 +44,8 @@ if __name__ == "__main__":
     budget = args.budget
     depth = args.depth
     problem = args.problem
-    pre_prune = args.gnnpruner
+    pre_prune = args.pre_prune
+    guide_with_expert = args.guide_with_expert
 
     print(f'Training for the problem {problem} Dataset {dataset} Budget {budget}')
 
@@ -54,6 +54,7 @@ if __name__ == "__main__":
 
 
     if pre_prune:
+        # GNN pruning + then training
         save_file_path = os.path.join(save_folder,'best_model_gnnpruner.pth')
     else: 
         save_file_path = os.path.join(save_folder,'best.pth')
@@ -106,26 +107,7 @@ if __name__ == "__main__":
                   depth=depth,
                   GNNpruner=pruner,
                   train=True)
-    # game  = MaxCover(graph=graph,heuristic=greedy,budget=budget,depth=depth,GNNpruner=pruner)
-    
-    # if problem =='MaxCover':
-    
-    #     game  = MaxCover(graph=graph,heuristic=maxcover_heuristic,
-    #                      budget=budget,depth=depth,
-    #                      GNNpruner=None,train=True)
-    # elif problem =='MaxCut':
-    #     game  = MaxCut(graph=graph,heuristic=maxcut_heuristic,
-    #                    budget=budget,depth=depth,
-    #                    GNNpruner=None,train=True)
-
-    # elif problem == 'IM':
-    #     game = IM(graph=graph,heuristic=imm,
-    #                    budget=budget,depth=depth,
-    #                    GNNpruner=None,train=True)
-
-    # else:
-    #     raise ValueError('Unknown Problem')
+   
      
-
     trainer = Trainer(model=model,game=game,args= mcts_args)
     trainer.learn()

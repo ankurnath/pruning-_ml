@@ -45,77 +45,102 @@ for problem in ['MaxCover','MaxCut','IM']:
 
 # print(data)
 
+new_df = defaultdict(list)
+
+
+
+for problem in data:
+
+    for dataset in data[problem]:
+        for algo in data[problem][dataset]:
+            C = data[problem][dataset][algo]['C']
+
+            if C == '--':
+                pass
+            else:
+                new_df[algo].append(float(data[problem][dataset][algo]['C']))
+
+
+print(np.mean(new_df['MCTSPruner']))
+
+
+print(np.mean(new_df['GCOMB']))
+print(np.mean(new_df['LeNSE']))
+print(np.mean(new_df['COMBHelper']))
+
+print((-np.mean(new_df['LeNSE'])+np.mean(new_df['MCTSPruner']))/np.mean(new_df['LeNSE']))
+
 # Loop through the problems
 
-heading = {'MaxCover':'Maximum Cover','MaxCut':'Maximum Cut','IM':'Influence Maximization'}
-for problem in ['MaxCover', 'MaxCut', 'IM']:
-    print('& \\multicolumn{12}{c|}{\\textbf{', end='')
-    print(f'{heading[problem]}', end='')
-    print('}} \\\\ \\hline')
-    print()
+# heading = {'MaxCover':'Maximum Cover','MaxCut':'Maximum Cut','IM':'Influence Maximization'}
+# for problem in ['MaxCover', 'MaxCut', 'IM']:
+#     print('& \\multicolumn{12}{c|}{\\textbf{', end='')
+#     print(f'{heading[problem]}', end='')
+#     print('}} \\\\ \\hline')
+#     print()
 
-    datasets = ['Facebook', 'Wiki', 'Deezer', 'Slashdot', 'Twitter', 'DBLP', 'YouTube', 'Skitter']
-    algorithms = ['MCTSPruner', 'GCOMB', 'COMBHelper', 'LeNSE']
+#     datasets = ['Facebook', 'Wiki', 'Deezer', 'Slashdot', 'Twitter', 'DBLP', 'YouTube', 'Skitter']
+#     algorithms = ['MCTSPruner', 'GCOMB', 'COMBHelper', 'LeNSE']
 
-    # Loop through datasets
-    for dataset in datasets:
-        print('\\multicolumn{1}{|c||}{', end='')
-        print(f'{dataset}', end='')
-        print('}', end='')
+#     # Loop through datasets
+#     for dataset in datasets:
+#         print('\\multicolumn{1}{|c||}{', end='')
+#         print(f'{dataset}', end='')
+#         print('}', end='')
 
-        best_c = 0
-        best_algo = None
-        for algorithm in algorithms:
+#         best_c = 0
+#         best_algo = None
+#         for algorithm in algorithms:
 
-            try:
-                if float(data[problem][dataset][algorithm]["C"]) > best_c:
-                    best_c = float(data[problem][dataset][algorithm]["C"])
-                    best_algo = algorithm
-            except:
-                pass
-            # print(best_algo)
+#             try:
+#                 if float(data[problem][dataset][algorithm]["C"]) > best_c:
+#                     best_c = float(data[problem][dataset][algorithm]["C"])
+#                     best_algo = algorithm
+#             except:
+#                 pass
+#             # print(best_algo)
 
 
 
-        # Loop through algorithms
-        for algorithm in algorithms:
-            # Print `Pr` value
-            # print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
+#         # Loop through algorithms
+#         for algorithm in algorithms:
+#             # Print `Pr` value
+#             # print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
 
-            # # Print `Pg` value
-            # print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
+#             # # Print `Pg` value
+#             # print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
 
-            # # Print `C` value
-            # print('& \\multicolumn{1}{c||}{', end='')
-            # print(f'{data[problem][dataset][algorithm]["C"]}', end='')
-            # print('}', end='')
+#             # # Print `C` value
+#             # print('& \\multicolumn{1}{c||}{', end='')
+#             # print(f'{data[problem][dataset][algorithm]["C"]}', end='')
+#             # print('}', end='')
 
-            print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
+#             print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
 
-            # Print `Pg` value
-            print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
+#             # Print `Pg` value
+#             print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
 
-            # Print `C` value
-            if algorithm == 'LeNSE':
-                print('& \\multicolumn{1}{c|}{', end='')
-            else:
-                print('& \\multicolumn{1}{c||}{', end='')
+#             # Print `C` value
+#             if algorithm == 'LeNSE':
+#                 print('& \\multicolumn{1}{c|}{', end='')
+#             else:
+#                 print('& \\multicolumn{1}{c||}{', end='')
 
-            # value = data[problem][dataset][algorithm]["C"]
-            # print(f'\\textbf{{{value}}}' if algorithm == best_algo else f'{value}', end='')
+#             # value = data[problem][dataset][algorithm]["C"]
+#             # print(f'\\textbf{{{value}}}' if algorithm == best_algo else f'{value}', end='')
 
-            if algorithm == best_algo:
-                print('\\textbf{', end='')
-                print(f'{data[problem][dataset][algorithm]["C"]}', end='')
-                print('}', end='')
-            else:
-                print(f'{data[problem][dataset][algorithm]["C"]}', end='')
-            print('}', end='')
+#             if algorithm == best_algo:
+#                 print('\\textbf{', end='')
+#                 print(f'{data[problem][dataset][algorithm]["C"]}', end='')
+#                 print('}', end='')
+#             else:
+#                 print(f'{data[problem][dataset][algorithm]["C"]}', end='')
+#             print('}', end='')
 
-        # End the row
-        print('\\\\')
+#         # End the row
+#         print('\\\\')
 
-    # Print the horizontal line after each problem
-    print('\\hline')
+#     # Print the horizontal line after each problem
+#     print('\\hline')
 
 

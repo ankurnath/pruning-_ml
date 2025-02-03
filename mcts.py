@@ -129,7 +129,6 @@ class MCTS:
         # action_probs, value = model(state)
         action_probs, value = model(data)
         action_probs = action_probs.cpu().detach().numpy()
-        
         valid_moves = self.game.get_valid_moves(state)
         action_probs = action_probs * valid_moves  # mask invalid moves
         action_probs /= np.sum(action_probs)
