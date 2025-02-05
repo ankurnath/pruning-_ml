@@ -2,8 +2,8 @@ import subprocess
 
 # Define the commands to be run in parallel
 problems = [
-            'MaxCover', 
-            'MaxCut',
+            # 'MaxCover', 
+            # 'MaxCut',
             'IM'
             ]
 datasets = [
@@ -14,7 +14,7 @@ datasets = [
             'Slashdot', 
             'Twitter', 
             'YouTube',
-            'Skitter'
+            # 'Skitter'
             ]
 
 devices = {'MaxCover': 0, 'MaxCut': 0, 'IM': 0}
