@@ -144,8 +144,9 @@ if __name__ == "__main__":
                 'Speedup':time_unpruned/time_pruned
 
             }
+    df_gnn = pd.DataFrame(df_gnn,index=[0])
 
-    save_file_path = os.path.join(save_folder,'GNNPruner')
+    save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
     save_to_pickle(df_gnn,save_file_path)
 # else:
     

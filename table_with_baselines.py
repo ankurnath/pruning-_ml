@@ -26,49 +26,102 @@ for problem in ['MaxCover','MaxCut','IM']:
     folder = os.path.join(problem,'data')
     datasets = os.listdir(folder)
     for dataset in datasets:
-        file_path = os.path.join(folder,dataset,'MCTSPruner')
-        _data = load_from_pickle(file_path=file_path,quiet=True)
-        Pg = (100-_data['Pruned Ground set(%)'].values[0])/100
-        Pr = _data['Ratio(%)'].values[0]/100
-        C = Pg*Pr
-        # Pg = 1-pg
-        # pr = _data['Ratio(%)'].values[0]/100
-        Pr = round(Pr,4)
-        Pg = round(Pg,4)
-        C = round(C,4)
+        for algorithm in ['MCTSPruner', 'GNNPruner', 'MCTSPruner+GNNPruner','MCTSPruner+GNNPruner+GuidedMCTS']:
+            try:
+                file_path = os.path.join(folder,dataset,algorithm)
+                _data = load_from_pickle(file_path=file_path,quiet=True)
+                Pg = (100-_data['Pruned Ground set(%)'].values[0])/100
+                Pr = _data['Ratio(%)'].values[0]/100
+                C = Pg*Pr
+                # Pg = 1-pg
+                # pr = _data['Ratio(%)'].values[0]/100
+                Pr = round(Pr,4)
+                Pg = round(Pg,4)
+                C = round(C,4)
 
-        # C = round(Pg*Pr,4)
-        data[problem][dataset]['MCTSPruner'] = {'Pr': Pr, 'Pg': Pg, 'C': C}
+                # C = round(Pg*Pr,4)
+                data[problem][dataset][algorithm] = {'Pr': Pr, 'Pg': Pg, 'C': C}
+            except:
+                pass
+
         # print({'Pr': Pr, 'Pg': Pg, 'C': C})
         # print(_data['Ratio(%)'].values[0],_data['Pruned Ground set(%)'].values[0])
 
 
-# print(data)
-
-new_df = defaultdict(list)
+print(data['MaxCover']['Facebook'])
 
 
+### Abalation Study
 
-for problem in data:
 
-    for dataset in data[problem]:
-        for algo in data[problem][dataset]:
-            C = data[problem][dataset][algo]['C']
+import os
+import pandas as pd
+from collections import defaultdict
 
-            if C == '--':
-                pass
+for problem in ['MaxCover', 'MaxCut', 'IM']:
+    print('*' * 30)
+    print(f'{problem}')
+    
+    folder = os.path.join(problem, 'data')
+    datasets = os.listdir(folder)
+    new_df = defaultdict(list)
+
+    for dataset in datasets:
+        new_df['Dataset'].append(dataset)  # Ensure Dataset column aligns with algorithms
+
+        for algorithm in ['MCTSPruner', 'GNNPruner', 'MCTSPruner+GNNPruner', 'MCTSPruner+GNNPruner+GuidedMCTS']:
+            file_path = os.path.join(folder, dataset, algorithm)
+
+            if os.path.exists(file_path):
+                _data = load_from_pickle(file_path=file_path, quiet=True)
+                Pg = (100 - _data['Pruned Ground set(%)'].values[0]) / 100
+                Pr = _data['Ratio(%)'].values[0] / 100
+                C = round(Pg * Pr, 4)
+
+                new_df[algorithm].append(C)
             else:
-                new_df[algo].append(float(data[problem][dataset][algo]['C']))
+                new_df[algorithm].append('NA')
+
+    df = pd.DataFrame(new_df).set_index('Dataset')
+
+    print(df)
+    print('*' * 30)
+
+# print(new_df)
+
+# # print(new_df)
 
 
-print(np.mean(new_df['MCTSPruner']))
+# for _df in new_df.groupby(['Problem']):
+#     print(_df)
+#     break
+
+    
+# print(new_df.groupby(['Problem','Algorithm']).mean())
+# new_df = defaultdict(list)
 
 
-print(np.mean(new_df['GCOMB']))
-print(np.mean(new_df['LeNSE']))
-print(np.mean(new_df['COMBHelper']))
 
-print((-np.mean(new_df['LeNSE'])+np.mean(new_df['MCTSPruner']))/np.mean(new_df['LeNSE']))
+# for problem in data:
+
+#     for dataset in data[problem]:
+#         for algo in data[problem][dataset]:
+#             C = data[problem][dataset][algo]['C']
+
+#             if C == '--':
+#                 pass
+#             else:
+#                 new_df[algo].append(float(data[problem][dataset][algo]['C']))
+
+
+# print(np.mean(new_df['MCTSPruner']))
+
+
+# print(np.mean(new_df['GCOMB']))
+# print(np.mean(new_df['LeNSE']))
+# print(np.mean(new_df['COMBHelper']))
+
+# print((-np.mean(new_df['LeNSE'])+np.mean(new_df['MCTSPruner']))/np.mean(new_df['LeNSE']))
 
 # Loop through the problems
 
