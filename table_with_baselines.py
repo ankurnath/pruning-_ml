@@ -69,7 +69,12 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
     for dataset in datasets:
         new_df['Dataset'].append(dataset)  # Ensure Dataset column aligns with algorithms
 
-        for algorithm in ['MCTSPruner', 'GNNPruner', 'MCTSPruner+GNNPruner', 'MCTSPruner+GNNPruner+GuidedMCTS']:
+        for algorithm in [
+                        'MCTSPruner', 
+                        'GNNPruner', 
+                        'MCTSPruner+GNNPruner', 
+                        # 'MCTSPruner+GNNPruner+GuidedMCTS'
+                        ]:
             file_path = os.path.join(folder, dataset, algorithm)
 
             if os.path.exists(file_path):
@@ -84,7 +89,7 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
 
     df = pd.DataFrame(new_df).set_index('Dataset')
 
-    print(df)
+    print(df.to_latex(index=True))
     print('*' * 30)
 
 # print(new_df)

@@ -32,21 +32,48 @@ class GNNpruner:
         else:
             self.model = GCN(num_features=1,hidden_channels=16)
 
-    def test(self,test_graph):
-
-        # start = time.time()
+    def test(self, test_graph, threshold=0.4):
+        # Convert NetworkX graph to PyTorch Geometric data
         test_data = from_networkx(test_graph)
-        test_data.x = torch.rand(size=(test_graph.number_of_nodes(),1))
+        test_data.x = torch.rand(size=(test_graph.number_of_nodes(), 1))  # Random node features
+
+        # Device setup
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.model = self.model.to(device)
         test_data = test_data.to(device)
-        out = self.model(test_data.x, test_data.edge_index)
-        pred = out.argmax(dim=1).cpu().numpy()  # Use the class with highest probability.
+
+        # Model evaluation
+        self.model.eval()
+        with torch.no_grad():  # Disable gradient computation for inference
+            out = self.model(test_data.x, test_data.edge_index)
+            probs = torch.softmax(out, dim=1)[:, 1]  # Probability of class 1
+
+        # Apply threshold
+        pred = (probs >= threshold).cpu().numpy()
         indices = np.where(pred == 1)[0]
-        reverse_mapping = dict(zip(range(test_graph.number_of_nodes()),test_graph.nodes()))
+
+
+        # Map indices back to node labels
+        reverse_mapping = dict(zip(range(test_graph.number_of_nodes()), test_graph.nodes()))
         pruned_universe = [reverse_mapping[node] for node in indices]
-        # end = time.time()
+
         return pruned_universe
+
+    # def test(self,test_graph,threshold=0.5):
+
+    #     # start = time.time()
+    #     test_data = from_networkx(test_graph)
+    #     test_data.x = torch.rand(size=(test_graph.number_of_nodes(),1))
+    #     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    #     self.model = self.model.to(device)
+    #     test_data = test_data.to(device)
+    #     out = self.model(test_data.x, test_data.edge_index)
+    #     pred = out.argmax(dim=1).cpu().numpy()  # Use the class with highest probability.
+    #     indices = np.where(pred == 1)[0]
+    #     reverse_mapping = dict(zip(range(test_graph.number_of_nodes()),test_graph.nodes()))
+    #     pruned_universe = [reverse_mapping[node] for node in indices]
+    #     # end = time.time()
+    #     return pruned_universe
 
 
 
@@ -94,7 +121,7 @@ class GNNpruner:
 
         save_file_path = os.path.join(save_folder,'best_model.pth')
 
-        for epoch in tqdm(range(10000)):
+        for epoch in tqdm(range(1000)):
 
             out = self.model(data.x, data.edge_index)  # Perform a single forward pass.
 
