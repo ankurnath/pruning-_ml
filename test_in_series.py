@@ -2,9 +2,9 @@ import subprocess
 
 # Define the commands to be run in parallel
 problems = [
-            'MaxCover', 
+            # 'MaxCover', 
             'MaxCut',
-            'IM'
+            # 'IM'
             ]
 datasets = [
             'Facebook', 
@@ -20,11 +20,13 @@ datasets = [
 devices = {'MaxCover': 0, 'MaxCut': 0, 'IM': 0}
 
 commands = []
-for problem in problems:
-    for dataset in datasets:
-        # Construct the command for each combination of problem and dataset
-        command = f'python test.py --problem {problem} --dataset {dataset} --device {devices[problem]}'
-        commands.append(command)  # Corrected: append the command to the list
+
+for train_dist in ['ER','BA']:
+    for problem in problems:
+        for dataset in datasets:
+            # Construct the command for each combination of problem and dataset
+            command = f'python test.py --problem {problem} --dataset {dataset} --device {devices[problem]} --train_dist {train_dist}'
+            commands.append(command)  # Corrected: append the command to the list
 
 # Start each command serially (one after the other)
 for cmd in commands:

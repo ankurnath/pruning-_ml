@@ -21,6 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("--depth",type=int,default=150)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
     parser.add_argument("--gnnpruner", type=bool,default=True, help="Whether to use GNNpruner to pre-prune")
+    parser.add_argument("--train_dist", type=str,default="ER", help="cuda device")
     
     args = parser.parse_args()
 
@@ -45,9 +46,18 @@ if __name__ == "__main__":
     problem = args.problem
     pre_prune = args.gnnpruner
 
-    print(f'Solving {problem} for {dataset} Budget {budget} Depth {depth}')
+    train_dist = args.train_dist
 
-    save_folder = f'pretrained/{problem}/{dataset}'
+    if train_dist is None:
+        train_dist = dataset
+    else:
+        root_folder = f'generelization/{train_dist}/{problem}/data/{dataset}'
+        os.makedirs(root_folder,exist_ok=True)
+
+    print(f'Solving {problem} for {dataset} Budget {budget} Depth {depth} with train_dist {train_dist}')
+
+    # save_folder = f'pretrained/{problem}/{dataset}'
+    save_folder = f'pretrained/{problem}/{train_dist}'
     os.makedirs(save_folder,exist_ok=True)
     model = PolicyValueGCN()
     save_file_path = os.path.join(save_folder,'best.pth')
@@ -89,7 +99,8 @@ if __name__ == "__main__":
     #### GNN only
 
     pruner = GNNpruner()
-    save_folder =  f'pretrained/{problem}/GNNpruner/{dataset}'
+    # save_folder =  f'pretrained/{problem}/GNNpruner/{dataset}'
+    save_folder =  f'pretrained/{problem}/GNNpruner/{train_dist}'
     load_model_path = os.path.join(save_folder,'best_model.pth')
     pruner.model.load_state_dict(torch.load(load_model_path,weights_only=False))
     pruner.model.to(device)
@@ -110,17 +121,23 @@ if __name__ == "__main__":
     ratio_gnn = objective_pruned/objective_unpruned
 
 
-    print('*'*10)
+    
 
     print('Performance of GCNPruner')
     print('Size Constraint,k:',budget)
     print('Size of Ground Set,|U|:',test_graph.number_of_nodes())
     print('Size of Pruned Ground Set, |Upruned|:', len(pruned_universe_gnn))
-    print('Pg(%):', Pg_gnn*100)
-    print('Ratio:',ratio_gnn*100)
-    print('C',Pg_gnn*ratio_gnn)
 
-    print('*'*10)
+    print('Pg(%):', round(1-Pg_gnn,4)*100)
+    print('Ratio:',round(ratio_gnn,4)*100)
+    print('C',round((1-Pg_gnn)*ratio_gnn,4)*100)
+    # print('Pg(%):', Pg_gnn*100)
+    # print('Ratio:',ratio_gnn*100)
+    # print('C',Pg_gnn*ratio_gnn)
+
+    
+
+    
 
     
 
@@ -146,8 +163,17 @@ if __name__ == "__main__":
             }
     df_gnn = pd.DataFrame(df_gnn,index=[0])
 
-    save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
-    save_to_pickle(df_gnn,save_file_path)
+    
+
+    if train_dist == dataset:
+        save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+        save_to_pickle(df_gnn,save_file_path)
+    else:
+        # save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+        save_file_path = os.path.join(root_folder,'GNNPruner')
+        save_to_pickle(df_gnn,save_file_path)
+
+    print('*'*10)
 # else:
     
 #     k = 1000
@@ -191,7 +217,7 @@ game  = env(graph=relabel_subgraph,
             # pruned_universe = relabeled_pruned_universe_gnn,
             budget = budget,
             depth = depth,
-            GNNpruner =None,
+            # GNNpruner =None,
             train =False)
 
 
@@ -294,7 +320,7 @@ print('Size of Pruned Ground Set, |Upruned|:', len(pruned_universe))
 print('Pg(%):', round(1-Pg,4)*100)
 print('Ratio:',round(ratio,4)*100)
 print('C',round((1-Pg)*ratio,4)*100)
-print('*'*10)
+
 # print('Queries:',round(queries_pruned/queries_unpruned,4)*100)
 
 
@@ -336,8 +362,19 @@ df ={       'Dataset':dataset,
 
 
 df = pd.DataFrame(df,index=[0])
-save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner')
-save_to_pickle(df,save_file_path)
+
+
+if train_dist == dataset:
+    # save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+    save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner')
+    save_to_pickle(df,save_file_path)
+else:
+    # save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+    save_file_path = os.path.join(root_folder,'MCTSPruner+GNNPruner')
+    save_to_pickle(df,save_file_path)
+
+print('*'*10)
+
 
 
 #### Guided MCTS
@@ -347,7 +384,7 @@ game  = env(graph=relabel_subgraph,
             pruned_universe = relabeled_pruned_universe_gnn,
             budget = budget,
             depth = depth,
-            GNNpruner =None,
+            # GNNpruner =None,
             train =False)
 
 
@@ -451,7 +488,7 @@ print('Pg(%):', round(1-Pg,4)*100)
 print('Ratio:',round(ratio,4)*100)
 print('C',round((1-Pg)*ratio,4)*100)
 # print('Queries:',round(queries_pruned/queries_unpruned,4)*100)
-print('*'*10)
+# print('*'*10)
 
 save_folder = f'{problem}/data/{dataset}'
 os.makedirs(save_folder,exist_ok=True)
@@ -491,8 +528,19 @@ df ={     'Dataset':dataset,
 
 
 df = pd.DataFrame(df,index=[0])
-save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner+GuidedMCTS')
-save_to_pickle(df,save_file_path)
+# save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner+GuidedMCTS')
+
+if train_dist == dataset:
+    # save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+    save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner+GuidedMCTS')
+    save_to_pickle(df,save_file_path)
+else:
+    # save_file_path = os.path.join(f'{problem}/data/{dataset}','GNNPruner')
+    save_file_path = os.path.join(root_folder,'MCTSPruner+GNNPruner+GuidedMCTS')
+    save_to_pickle(df,save_file_path)
+
+print('*'*10)
+# save_to_pickle(df,save_file_path)
 
 
 

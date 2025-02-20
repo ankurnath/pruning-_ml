@@ -58,11 +58,17 @@ import os
 import pandas as pd
 from collections import defaultdict
 
-for problem in ['MaxCover', 'MaxCut', 'IM']:
+root_folder = 'generelization/BA'
+
+for problem in [
+    'MaxCover', 
+    'MaxCut', 
+    'IM'
+    ]:
     print('*' * 30)
     print(f'{problem}')
     
-    folder = os.path.join(problem, 'data')
+    folder = os.path.join(root_folder,problem, 'data')
     datasets = os.listdir(folder)
     new_df = defaultdict(list)
 
@@ -70,15 +76,18 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
         new_df['Dataset'].append(dataset)  # Ensure Dataset column aligns with algorithms
 
         for algorithm in [
-                        'MCTSPruner', 
+                        # 'MCTSPruner', 
                         'GNNPruner', 
-                        'MCTSPruner+GNNPruner', 
-                        # 'MCTSPruner+GNNPruner+GuidedMCTS'
+                        # 'MCTSPruner+GNNPruner', 
+                        'MCTSPruner+GNNPruner+GuidedMCTS'
                         ]:
             file_path = os.path.join(folder, dataset, algorithm)
 
+            # print(file_path)
+
             if os.path.exists(file_path):
                 _data = load_from_pickle(file_path=file_path, quiet=True)
+                # print(_data)
                 Pg = (100 - _data['Pruned Ground set(%)'].values[0]) / 100
                 Pr = _data['Ratio(%)'].values[0] / 100
                 C = round(Pg * Pr, 4)

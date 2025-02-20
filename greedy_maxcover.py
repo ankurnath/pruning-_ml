@@ -103,6 +103,69 @@ def greedy(graph,budget,ground_set=None):
 
     return obj_val,solution,number_of_queries
 
+
+
+def maxcover_greedy_rollout(graph,depth,nodes):
+
+    # print('Using greedy rollout')
+    print('Nodes',nodes)
+
+
+   
+    uncovered = defaultdict(lambda: True)
+    gains = get_gains(graph=graph,ground_set=None)
+    solution=[]
+    for node in nodes:
+        gain_adjustment(graph=graph,
+                        gains=gains,
+                        selected_element=node,
+                        uncovered=uncovered)
+        solution.append(node)
+        
+    
+    for i in range(depth-len(nodes)):
+        selected_element=max(gains, key=gains.get)
+
+        if gains[selected_element] == 0:
+            # print('All elements are already covered')
+            break
+        gain_adjustment(graph=graph,
+                        gains=gains,
+                        selected_element=selected_element,
+                        uncovered=uncovered)
+        solution.append(selected_element)
+
+    return calculate_obj(graph,solution)
+        
+    
+
+
+    # solution=[]
+    # uncovered=defaultdict(lambda: True)
+
+    # for i in range(budget):
+    #     number_of_queries += (len(gains)-i)
+
+    #     selected_element=max(gains, key=gains.get)
+
+    #     obj_val += gains[selected_element]
+
+    #     if gains[selected_element]==0:
+    #         # print('All elements are already covered')
+    #         break
+    #     solution.append(selected_element)
+    #     # print(gains[selected_element])
+    #     gain_adjustment(graph,gains,selected_element,uncovered)
+
+    # # print('Number of queries:',number_of_queries)
+
+
+    # return obj_val,solution,number_of_queries
+
+
+    
+    
+
         
 
 

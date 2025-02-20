@@ -54,5 +54,36 @@ def greedy(graph,budget,ground_set=None):
     return obj_val,solution,number_of_queries
 
 
+def maxcut_greedy_rollout(graph,depth,nodes):
+
+
+   
+    spins={node:1 for node in graph.nodes()}
+    gains = get_gains(graph=graph,ground_set=None)
+    solution=[]
+    obj_val = 0
+    for node in nodes:
+        obj_val += gains[node]
+        gain_adjustment(graph=graph,
+                        gains=gains,
+                        selected_element=node,
+                        spins=spins)
+        solution.append(node)
+        
+    
+    for i in range(depth-len(nodes)):
+        selected_element=max(gains, key=gains.get)
+        obj_val += gains[selected_element]
+        if gains[selected_element] <= 0:
+            # print('All elements are already covered')
+            break
+        gain_adjustment(graph=graph,
+                        gains=gains,
+                        selected_element=selected_element,
+                        spins=spins)
+        solution.append(node)
+
+    return obj_val
+
 
 

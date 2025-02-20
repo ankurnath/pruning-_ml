@@ -14,49 +14,41 @@ class Game:
                  depth,
                  pruned_universe=None,
                  pre_prune=False,
-                 GNNpruner = None,
-                 train=False):
+                #  GNNpruner = None,
+                 train=False,
+                #  greedy_rollout=None
+                 ):
 
 
 
         self.budget = budget
         self.heuristic = heuristic
         self.depth = depth
+        # self.greedy_rollout = greedy_rollout
+        self.train = train
         
 
-
-        # if GNNpruner:
-        #     self.action_mask = GNNpruner.test(test_graph=graph)
-        #     # print(self.action_mask)
-        #     print('Action mask length:',len(self.action_mask))
-        #     print([graph.degree(node) for node in self.action_mask])
-        #     # print('Action mask length:',len(self.action_mask),self.action_mask)
-
-        #     subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
-
-        #     relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
-        #     # print(relabeled_subgraph.number_of_nodes())
-        #     self.graph = relabeled_subgraph
-        #     self.foward_mapping = forward_mapping
-        #     self.action_mask =[ forward_mapping[action] for action in self.action_mask]
-            
-        #     self.reverse_mapping = reverse_mapping
-        #     # print(self.reverse_mapping)         
-        # else:
-            # self.graph = graph
         if train:
             print('Training')
-            _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
-            print('Action mask length:',len(self.action_mask))
+            ####### Rollout
+
+            self.graph = graph
+            self.action_mask = [node for node in graph.nodes()]
+
+            ######
+
+
+            ##### Warm start 
+            # _,self.action_mask,_ = heuristic(graph=graph,budget=budget)
+            # print('Action mask length:',len(self.action_mask))
             
-            # *****
-            subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
-            relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
-            self.graph = relabeled_subgraph
-            self.action_mask =[ forward_mapping[action] for action in self.action_mask]
-            self.reverse_mapping = reverse_mapping
-            
-            # *****
+            # # *****
+            # subgraph = make_subgraph(graph=graph,nodes=self.action_mask)
+            # relabeled_subgraph,forward_mapping,reverse_mapping = relabel_graph(graph=subgraph)
+            # self.graph = relabeled_subgraph
+            # self.action_mask =[ forward_mapping[action] for action in self.action_mask]
+            # self.reverse_mapping = reverse_mapping
+            ##### 
         elif pruned_universe is not None:
             print('Pruned universe from GNN is given')
             self.graph = graph
@@ -68,9 +60,17 @@ class Game:
             self.action_mask = [node for node in graph.nodes()]
         
         if train or pruned_universe is not None:
-            _action_mask = set(self.action_mask)
-            self.action_demask = [node for node in self.graph.nodes() if node 
-                                        not in set(_action_mask)]
+
+            all_nodes = np.arange(self.graph.number_of_nodes())  # All node indices
+            self.action_demask = np.setdiff1d(all_nodes, self.action_mask, assume_unique=True)
+
+
+            # action_demask = np.ones(shape=(self.graph.number_of_nodes(),1),dtype=np.int32)
+            # action_demask[self.action_mask] = 0
+            # self.action_demask = np.where(action_demask == 1)[0]
+            # _action_mask = set(self.action_mask)
+            # self.action_demask = [node for node in self.graph.nodes() if node 
+            #                             not in set(_action_mask)]
         else:
             self.action_demask = []
 
@@ -116,6 +116,14 @@ class Game:
 
         if self.has_legal_moves(state):
 
+
+            # if self.greedy_rollout and self.train:
+            #    return self.greedy_rollout(graph=self.graph, 
+            #                               depth=self.depth, 
+            #                               nodes=np.where(state == 0)[0])
+                
+            # else:
+
             return None
 
         
@@ -135,18 +143,42 @@ class Game:
         
     
 class MaxCover(Game):
-    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train,pruned_universe):
+    def __init__(self, 
+                 graph, 
+                 heuristic, 
+                 budget, 
+                 depth, 
+                #  GNNpruner,
+                 train,
+                 pruned_universe,
+                #  greedy_rollout
+                 ):
         # Properly call the parent class's initializer using `super()`
-        super().__init__(graph=graph, heuristic= heuristic, budget=budget, 
-                         depth=depth, GNNpruner=GNNpruner,train=train,
-                         pruned_universe=pruned_universe)
+        super().__init__(graph=graph, 
+                         heuristic= heuristic, 
+                         budget=budget, 
+                         depth=depth, 
+                        #  GNNpruner=GNNpruner,
+                         train=train,
+                         pruned_universe=pruned_universe,
+                        #  greedy_rollout=greedy_rollout
+                         )
         
         # Correctly access the `max_reward` attribute from the `graph` object
         self.max_reward = self.graph.number_of_nodes()
 
 
 class MaxCut(Game):
-    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train,pruned_universe):
+    def __init__(self, 
+                 graph, 
+                 heuristic, 
+                 budget, 
+                 depth, 
+                #  GNNpruner,
+                 train,
+                 pruned_universe,
+                #  greedy_rollout
+                 ):
         # Properly call the parent class's initializer using `super()`
 
         # Correctly access the `max_reward` attribute from the `graph` object
@@ -155,9 +187,11 @@ class MaxCut(Game):
                          heuristic=heuristic, 
                          budget=budget, 
                          depth=depth, 
-                         GNNpruner = GNNpruner,
+                        #  GNNpruner = GNNpruner,
                          pruned_universe= pruned_universe,
-                         train=train)
+                         train=train,
+                        #  greedy_rollout=greedy_rollout
+                         )
         self.max_reward = graph.number_of_edges()
         
         
@@ -166,7 +200,14 @@ class MaxCut(Game):
 
 
 class IM(Game):
-    def __init__(self, graph, heuristic, budget, depth, GNNpruner,train,pruned_universe):
+    def __init__(self, 
+                 graph, 
+                 heuristic, 
+                 budget, 
+                 depth, 
+                #  GNNpruner,
+                 train,
+                 pruned_universe):
 
 
         self.budget = budget

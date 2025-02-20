@@ -169,6 +169,9 @@ class MCTS:
 
             # The value of the new state from the perspective of the other player
             value = self.game.get_reward_for_player(next_state)
+            # print(value)
+
+            
 
             # print('Value',value)
             if value is None:
@@ -191,6 +194,21 @@ class MCTS:
                 action_probs /= np.sum(action_probs)
                 # node.expand(next_state, parent.to_play * -1, action_probs)
                 node.expand(next_state,action_probs)
+
+            # else:
+            #     if self.game.has_legal_moves(next_state):
+            #         data.x = torch.from_numpy(next_state)
+            #         data = Batch.from_data_list([data])
+            #         data = data.to(self.device)
+            #         action_probs, _ = model(data)
+            #         action_probs = action_probs.cpu().detach().numpy()
+            #         # value = value.item()
+            #         valid_moves = self.game.get_valid_moves(next_state)
+            #         action_probs = action_probs * valid_moves  # mask invalid moves
+            #         action_probs /= np.sum(action_probs)
+            #         # node.expand(next_state, parent.to_play * -1, action_probs)
+            #         node.expand(next_state,action_probs)
+                    
 
             self.backpropagate(search_path, value)
 

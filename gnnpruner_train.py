@@ -32,7 +32,7 @@ class GNNpruner:
         else:
             self.model = GCN(num_features=1,hidden_channels=16)
 
-    def test(self, test_graph, threshold=0.4):
+    def test(self, test_graph, threshold=0.5):
         # Convert NetworkX graph to PyTorch Geometric data
         test_data = from_networkx(test_graph)
         test_data.x = torch.rand(size=(test_graph.number_of_nodes(), 1))  # Random node features
@@ -180,25 +180,25 @@ if __name__ == "__main__":
                  save_folder =save_folder)
     
    
-    load_model_path = os.path.join(save_folder,'best_model.pth')
-    pruner.model.load_state_dict(torch.load(load_model_path))
-    test_graph = load_graph(f'../snap_dataset/test/{dataset}')
-    pruned_universe = pruner.test(test_graph=test_graph)
+    # load_model_path = os.path.join(save_folder,'best_model.pth')
+    # pruner.model.load_state_dict(torch.load(load_model_path))
+    # test_graph = load_graph(f'../snap_dataset/test/{dataset}')
+    # pruned_universe = pruner.test(test_graph=test_graph)
 
-    Pg = len(pruned_universe)/test_graph.number_of_nodes()
-    objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
-    objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
-                                                                 budget=budget,
-                                                                 ground_set=pruned_universe)
-    ratio = objective_pruned/objective_unpruned
+    # Pg = len(pruned_universe)/test_graph.number_of_nodes()
+    # objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
+    # objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
+    #                                                              budget=budget,
+    #                                                              ground_set=pruned_universe)
+    # ratio = objective_pruned/objective_unpruned
 
-    print('Performance of GCNPruner')
-    print('Size Constraint,k:',budget)
-    print('Size of Ground Set,|U|:',test_graph.number_of_nodes())
-    print('Size of Pruned Ground Set, |Upruned|:', len(pruned_universe))
-    print('Pg(%):', round(1-Pg,4)*100)
-    print('Ratio:',round(ratio,4)*100)
-    print('C',round((1-Pg)*ratio,4)*100)
+    # print('Performance of GCNPruner')
+    # print('Size Constraint,k:',budget)
+    # print('Size of Ground Set,|U|:',test_graph.number_of_nodes())
+    # print('Size of Pruned Ground Set, |Upruned|:', len(pruned_universe))
+    # print('Pg(%):', round(1-Pg,4)*100)
+    # print('Ratio:',round(ratio,4)*100)
+    # print('C',round((1-Pg)*ratio,4)*100)
 
 
 

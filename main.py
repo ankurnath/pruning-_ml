@@ -5,6 +5,8 @@ from model import PolicyValueGCN
 from train import Trainer
 from utils import *
 from greedy_maxcover import greedy as maxcover_heuristic
+from greedy_maxcover import maxcover_greedy_rollout as maxcover_rollout
+from greedy_maxcut import maxcut_greedy_rollout as maxcut_rollout
 from greedy_maxcut import greedy as maxcut_heuristic
 from imm import imm
 from gnnpruner_train import *
@@ -17,11 +19,12 @@ if __name__ == "__main__":
 
     parser.add_argument( "--dataset", type=str, default='Twitter', help="Name of the dataset to be used (default: 'Facebook')" )
     parser.add_argument("--problem",type=str,default='MaxCut')
-    parser.add_argument("--budget",type=int,default=100)
-    parser.add_argument("--depth",type=int,default=50)
+    parser.add_argument("--budget",type=int,default=10)
+    parser.add_argument("--depth",type=int,default=10)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
     parser.add_argument("--pre_prune", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
     parser.add_argument("--guide_with_expert", type=bool,default=False, help="Guide with expert")
+    parser.add_argument("--greedy_rollout", type=bool,default=False, help="Greedy rollout")
     args = parser.parse_args()
 
     
@@ -46,6 +49,7 @@ if __name__ == "__main__":
     problem = args.problem
     pre_prune = args.pre_prune
     guide_with_expert = args.guide_with_expert
+    greedy_rollout= args.greedy_rollout
 
     print(f'Training for the problem {problem} Dataset {dataset} Budget {budget}')
 
@@ -62,7 +66,7 @@ if __name__ == "__main__":
     mcts_args = {
         'batch_size': 10,
         'numIters': 10,                                # Total number of training iterations
-        'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
+        'num_simulations': 10000,                         # Total number of MCTS simulations to run when deciding on a move to play
         'numEps': 1,
                                                                             # Number of full games (episodes) to run during each iteration
         # 'numItersForTrainExamplesHistory': 20,
@@ -78,9 +82,13 @@ if __name__ == "__main__":
     if problem =='MaxCover':
         heuristic = maxcover_heuristic
         problem = MaxCover
+        if greedy_rollout:
+            greedy_rollout = maxcover_rollout
     elif problem =='MaxCut':
         heuristic = maxcut_heuristic
         problem = MaxCut
+        if greedy_rollout:
+            greedy_rollout = maxcover_rollout
     elif problem == 'IM':
         heuristic = imm
         problem = IM
@@ -104,9 +112,13 @@ if __name__ == "__main__":
     game = problem(graph=train_graph,
                   heuristic=heuristic,
                   budget=budget,
+                  pruned_universe=None,
+                #   pre_prune=pre_prune,
                   depth=depth,
-                  GNNpruner=pruner,
-                  train=True)
+                #   GNNpruner=pruner,
+                  train=True,
+                #   greedy_rollout=greedy_rollout
+                  )
    
      
     trainer = Trainer(model=model,game=game,args= mcts_args)
