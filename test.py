@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("--depth",type=int,default=150)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
     parser.add_argument("--gnnpruner", type=bool,default=True, help="Whether to use GNNpruner to pre-prune")
-    parser.add_argument("--train_dist", type=str,default="ER", help="cuda device")
+    parser.add_argument("--train_dist", type=str,default="ER_200", help="cuda device")
     
     args = parser.parse_args()
 

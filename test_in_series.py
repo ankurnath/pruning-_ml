@@ -2,9 +2,9 @@ import subprocess
 
 # Define the commands to be run in parallel
 problems = [
-            # 'MaxCover', 
+            'MaxCover', 
             'MaxCut',
-            # 'IM'
+            'IM'
             ]
 datasets = [
             'Facebook', 
@@ -21,7 +21,11 @@ devices = {'MaxCover': 0, 'MaxCut': 0, 'IM': 0}
 
 commands = []
 
-for train_dist in ['ER','BA']:
+for train_dist in [
+                # 'ER',
+                # 'BA',
+                'ER_200'
+                ]:
     for problem in problems:
         for dataset in datasets:
             # Construct the command for each combination of problem and dataset
