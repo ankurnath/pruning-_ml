@@ -176,3 +176,1108 @@ Data has been saved to generelization/BA/MaxCut/data/YouTube/MCTSPruner+GNNPrune
 **********
 Killed
 All commands have been completed.
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Facebook Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Facebook
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 885
+Pg(%): 77.89
+Ratio: 99.74
+C 77.68
+Data has been saved to generelization/ER_200/MaxCover/data/Facebook/GNNPruner
+**********
+Action mask length in MCTS: 3939
+Time elpased to create the game 0.0952
+{50: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 8.456697463989258
+Elapsed time (unpruned): 0.0228
+Elapsed time (pruned): 0.0065
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 97.72
+C 94.06
+Data has been saved to generelization/ER_200/MaxCover/data/Facebook/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 885
+Time elpased to create the game 0.0077
+{50: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 15.411560297012329
+Elapsed time (unpruned): 0.0228
+Elapsed time (pruned): 0.0066
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 97.72
+C 94.06
+Data has been saved to generelization/ER_200/MaxCover/data/Facebook/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Wiki Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Wiki
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 869
+Pg(%): 86.33
+Ratio: 100.0
+C 86.33
+Data has been saved to generelization/ER_200/MaxCover/data/Wiki/GNNPruner
+**********
+Action mask length in MCTS: 5791
+Time elpased to create the game 0.1647
+{216: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 12.39118766784668
+Elapsed time (unpruned): 0.0312
+Elapsed time (pruned): 0.0087
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 97.99
+C 95.67999999999999
+Data has been saved to generelization/ER_200/MaxCover/data/Wiki/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 869
+Time elpased to create the game 0.0107
+{216: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 23.024991035461426
+Elapsed time (unpruned): 0.0322
+Elapsed time (pruned): 0.0086
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 97.99
+C 95.67999999999999
+Data has been saved to generelization/ER_200/MaxCover/data/Wiki/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Deezer Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Deezer
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 12711
+Pg(%): 76.25
+Ratio: 100.0
+C 76.25
+Data has been saved to generelization/ER_200/MaxCover/data/Deezer/GNNPruner
+**********
+Action mask length in MCTS: 50133
+Time elpased to create the game 1.6636
+{2265: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 25.866032600402832
+Elapsed time (unpruned): 0.1806
+Elapsed time (pruned): 0.0148
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 97.66
+C 97.39
+Data has been saved to generelization/ER_200/MaxCover/data/Deezer/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 12711
+Time elpased to create the game 0.0178
+{2265: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 42.0654239654541
+Elapsed time (unpruned): 0.1865
+Elapsed time (pruned): 0.0142
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 97.66
+C 97.39
+Data has been saved to generelization/ER_200/MaxCover/data/Deezer/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for DBLP Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/DBLP
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 66252
+Pg(%): 78.99000000000001
+Ratio: 100.0
+C 78.99000000000001
+Data has been saved to generelization/ER_200/MaxCover/data/DBLP/GNNPruner
+**********
+Action mask length in MCTS: 288541
+Time elpased to create the game 5.9913
+{4014: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 67.18105721473694
+Elapsed time (unpruned): 0.9699
+Elapsed time (pruned): 0.0228
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 95.52000000000001
+C 95.47
+Data has been saved to generelization/ER_200/MaxCover/data/DBLP/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 66252
+Time elpased to create the game 0.0367
+{4014: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 102.79126763343811
+Elapsed time (unpruned): 0.9259
+Elapsed time (pruned): 0.0235
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 95.52000000000001
+C 95.47
+Data has been saved to generelization/ER_200/MaxCover/data/DBLP/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Slashdot Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Slashdot
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 9693
+Pg(%): 85.67
+Ratio: 100.0
+C 85.67
+Data has been saved to generelization/ER_200/MaxCover/data/Slashdot/GNNPruner
+**********
+Action mask length in MCTS: 59280
+Time elpased to create the game 0.9008
+{3897: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 44.36701798439026
+Elapsed time (unpruned): 0.2731
+Elapsed time (pruned): 0.0358
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 98.41
+C 98.19
+Data has been saved to generelization/ER_200/MaxCover/data/Slashdot/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 9693
+Time elpased to create the game 0.039
+{3897: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 79.73475980758667
+Elapsed time (unpruned): 0.2582
+Elapsed time (pruned): 0.0354
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 98.41
+C 98.19
+Data has been saved to generelization/ER_200/MaxCover/data/Slashdot/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Twitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Twitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 11963
+Pg(%): 85.18
+Ratio: 100.0
+C 85.18
+Data has been saved to generelization/ER_200/MaxCover/data/Twitter/GNNPruner
+**********
+Action mask length in MCTS: 80382
+Time elpased to create the game 3.7166
+{5: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 120.39167809486389
+Elapsed time (unpruned): 0.4413
+Elapsed time (pruned): 0.0969
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 94.35
+C 94.17999999999999
+Data has been saved to generelization/ER_200/MaxCover/data/Twitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 11963
+Time elpased to create the game 0.1009
+{5: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 212.83580660820007
+Elapsed time (unpruned): 0.4442
+Elapsed time (pruned): 0.0953
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 94.35
+C 94.17999999999999
+Data has been saved to generelization/ER_200/MaxCover/data/Twitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for YouTube Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/YouTube
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 171583
+Pg(%): 84.37
+Ratio: 100.0
+C 84.37
+Data has been saved to generelization/ER_200/MaxCover/data/YouTube/GNNPruner
+**********
+Action mask length in MCTS: 959663
+Time elpased to create the game 21.5403
+{536: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 420.7415008544922
+Elapsed time (unpruned): 3.9763
+Elapsed time (pruned): 0.3982
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 99.35000000000001
+C 99.33
+Data has been saved to generelization/ER_200/MaxCover/data/YouTube/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 171583
+Time elpased to create the game 0.4239
+{536: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 746.124885559082
+Elapsed time (unpruned): 4.0158
+Elapsed time (pruned): 0.3898
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 99.35000000000001
+C 99.33
+Data has been saved to generelization/ER_200/MaxCover/data/YouTube/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCover for Skitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Skitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 233018
+Pg(%): 86.25
+Ratio: 100.0
+C 86.25
+Data has been saved to generelization/ER_200/MaxCover/data/Skitter/GNNPruner
+**********
+Action mask length in MCTS: 1608010
+Time elpased to create the game 66.0646
+{1310: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 1361.6999328136444
+Elapsed time (unpruned): 7.7018
+Elapsed time (pruned): 1.2188
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 93.93
+C 93.93
+Data has been saved to generelization/ER_200/MaxCover/data/Skitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 233018
+Time elpased to create the game 1.2654
+{1310: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 2365.7985429763794
+Elapsed time (unpruned): 7.5351
+Elapsed time (pruned): 1.2064
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 93.93
+C 93.93
+Data has been saved to generelization/ER_200/MaxCover/data/Skitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Facebook Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Facebook
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 940
+Pg(%): 76.51
+Ratio: 100.0
+C 76.51
+Data has been saved to generelization/ER_200/MaxCut/data/Facebook/GNNPruner
+**********
+Action mask length in MCTS: 3940
+Time elpased to create the game 0.0979
+{50: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 4.393274545669556
+Elapsed time (unpruned): 0.013
+Elapsed time (pruned): 0.0011
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 81.33
+C 78.29
+Data has been saved to generelization/ER_200/MaxCut/data/Facebook/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 940
+Time elpased to create the game 0.0032
+{50: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 7.284519910812378
+Elapsed time (unpruned): 0.0132
+Elapsed time (pruned): 0.0011
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 81.33
+C 78.29
+Data has been saved to generelization/ER_200/MaxCut/data/Facebook/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Wiki Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Wiki
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 863
+Pg(%): 86.42999999999999
+Ratio: 100.0
+C 86.42999999999999
+Data has been saved to generelization/ER_200/MaxCut/data/Wiki/GNNPruner
+**********
+Action mask length in MCTS: 5790
+Time elpased to create the game 0.1399
+{216: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 5.788847923278809
+Elapsed time (unpruned): 0.0215
+Elapsed time (pruned): 0.0019
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 98.96000000000001
+C 96.63000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Wiki/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 863
+Time elpased to create the game 0.0045
+{216: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 9.876399517059326
+Elapsed time (unpruned): 0.0213
+Elapsed time (pruned): 0.0019
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 98.96000000000001
+C 96.63000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Wiki/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Deezer Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Deezer
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 13168
+Pg(%): 75.39
+Ratio: 100.0
+C 75.39
+Data has been saved to generelization/ER_200/MaxCut/data/Deezer/GNNPruner
+**********
+Action mask length in MCTS: 50396
+Time elpased to create the game 1.1803
+{2361: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 17.52387809753418
+Elapsed time (unpruned): 0.1478
+Elapsed time (pruned): 0.0027
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 97.71
+C 97.43
+Data has been saved to generelization/ER_200/MaxCut/data/Deezer/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 13168
+Time elpased to create the game 0.0209
+{2361: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 26.582494974136353
+Elapsed time (unpruned): 0.1532
+Elapsed time (pruned): 0.0028
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 97.71
+C 97.43
+Data has been saved to generelization/ER_200/MaxCut/data/Deezer/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for DBLP Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/DBLP
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 63891
+Pg(%): 79.74
+Ratio: 100.0
+C 79.74
+Data has been saved to generelization/ER_200/MaxCut/data/DBLP/GNNPruner
+**********
+Action mask length in MCTS: 291611
+Time elpased to create the game 6.0542
+{4068: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 61.86004948616028
+Elapsed time (unpruned): 0.9012
+Elapsed time (pruned): 0.0113
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 92.04
+C 91.99000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/DBLP/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 63891
+Time elpased to create the game 0.1175
+{4068: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 93.32628774642944
+Elapsed time (unpruned): 0.9278
+Elapsed time (pruned): 0.0119
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 92.04
+C 91.99000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/DBLP/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Slashdot Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Slashdot
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 8893
+Pg(%): 86.85000000000001
+Ratio: 100.0
+C 86.85000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Slashdot/GNNPruner
+**********
+Action mask length in MCTS: 59021
+Time elpased to create the game 1.3026
+{3981: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 20.50745677947998
+Elapsed time (unpruned): 0.2054
+Elapsed time (pruned): 0.0045
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 99.89
+C 99.66000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Slashdot/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 8893
+Time elpased to create the game 0.0248
+{3981: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 31.35759449005127
+Elapsed time (unpruned): 0.205
+Elapsed time (pruned): 0.0044
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 99.89
+C 99.66000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Slashdot/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Twitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Twitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 11927
+Pg(%): 85.22
+Ratio: 100.0
+C 85.22
+Data has been saved to generelization/ER_200/MaxCut/data/Twitter/GNNPruner
+**********
+Action mask length in MCTS: 80371
+Time elpased to create the game 3.5805
+{5: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 53.676692724227905
+Elapsed time (unpruned): 0.2734
+Elapsed time (pruned): 0.0071
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 94.92
+C 94.74000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Twitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 11927
+Time elpased to create the game 0.0536
+{5: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 79.62216377258301
+Elapsed time (unpruned): 0.2578
+Elapsed time (pruned): 0.0069
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 94.92
+C 94.74000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Twitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for YouTube Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/YouTube
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 158664
+Pg(%): 85.55
+Ratio: 100.0
+C 85.55
+Data has been saved to generelization/ER_200/MaxCut/data/YouTube/GNNPruner
+**********
+Action mask length in MCTS: 961196
+Time elpased to create the game 21.3861
+{536: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 216.8383936882019
+Elapsed time (unpruned): 3.4945
+Elapsed time (pruned): 0.0783
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 93.82000000000001
+C 93.81
+Data has been saved to generelization/ER_200/MaxCut/data/YouTube/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 158664
+Time elpased to create the game 0.4805
+{536: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 339.3531687259674
+Elapsed time (unpruned): 3.3937
+Elapsed time (pruned): 0.0721
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 93.82000000000001
+C 93.81
+Data has been saved to generelization/ER_200/MaxCut/data/YouTube/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving MaxCut for Skitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Skitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 220593
+Pg(%): 86.98
+Ratio: 100.0
+C 86.98
+Data has been saved to generelization/ER_200/MaxCut/data/Skitter/GNNPruner
+**********
+Action mask length in MCTS: 1605214
+Time elpased to create the game 65.6699
+{1310: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 701.6900475025177
+Elapsed time (unpruned): 5.7917
+Elapsed time (pruned): 0.1794
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 64.72
+C 64.71000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Skitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 220593
+Time elpased to create the game 0.9925
+{1310: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 1048.9018638134003
+Elapsed time (unpruned): 5.5739
+Elapsed time (pruned): 0.1526
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 64.72
+C 64.71000000000001
+Data has been saved to generelization/ER_200/MaxCut/data/Skitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Facebook Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Facebook
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 2179
+Pg(%): 45.550000000000004
+Ratio: 97.23
+C 44.29
+Data has been saved to generelization/ER_200/IM/data/Facebook/GNNPruner
+**********
+Action mask length in MCTS: 3921
+Time elpased to create the game 1.8853
+{196: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 10.29095721244812
+Elapsed time (unpruned): 1.748
+Elapsed time (pruned): 1.5877
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 87.63
+C 84.35000000000001
+Data has been saved to generelization/ER_200/IM/data/Facebook/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 2179
+Time elpased to create the game 1.5905
+{196: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 19.0401451587677
+Elapsed time (unpruned): 1.7778
+Elapsed time (pruned): 1.8058
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 4002
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 96.25
+Ratio: 86.33
+C 83.09
+Data has been saved to generelization/ER_200/IM/data/Facebook/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Wiki Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Wiki
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 1488
+Pg(%): 76.6
+Ratio: 98.66
+C 75.57000000000001
+Data has been saved to generelization/ER_200/IM/data/Wiki/GNNPruner
+**********
+Action mask length in MCTS: 4934
+Time elpased to create the game 2.573
+{64: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 11.301813125610352
+Elapsed time (unpruned): 2.3017
+Elapsed time (pruned): 2.6478
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 95.28999999999999
+C 93.04
+Data has been saved to generelization/ER_200/IM/data/Wiki/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 1488
+Time elpased to create the game 2.6498
+{64: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 21.75828742980957
+Elapsed time (unpruned): 2.1287
+Elapsed time (pruned): 2.0102
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 6358
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 97.64
+Ratio: 95.93
+C 93.67
+Data has been saved to generelization/ER_200/IM/data/Wiki/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Deezer Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Deezer
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 31513
+Pg(%): 41.11
+Ratio: 98.58
+C 40.53
+Data has been saved to generelization/ER_200/IM/data/Deezer/GNNPruner
+**********
+Action mask length in MCTS: 50815
+Time elpased to create the game 10.1031
+{3281: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 42.38284111022949
+Elapsed time (unpruned): 14.2178
+Elapsed time (pruned): 9.2503
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 95.22
+C 94.95
+Data has been saved to generelization/ER_200/IM/data/Deezer/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 31513
+Time elpased to create the game 9.254
+{3281: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 82.29239797592163
+Elapsed time (unpruned): 10.1231
+Elapsed time (pruned): 11.1386
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 53511
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.72
+Ratio: 94.76
+C 94.49
+Data has been saved to generelization/ER_200/IM/data/Deezer/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for DBLP Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/DBLP
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 153015
+Pg(%): 51.470000000000006
+Ratio: 98.71
+C 50.81
+Data has been saved to generelization/ER_200/IM/data/DBLP/GNNPruner
+**********
+Action mask length in MCTS: 269457
+Time elpased to create the game 51.3118
+{3728: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 182.15839433670044
+Elapsed time (unpruned): 53.4677
+Elapsed time (pruned): 51.1384
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 79.78
+C 79.74
+Data has been saved to generelization/ER_200/IM/data/DBLP/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 153015
+Time elpased to create the game 51.1531
+{3728: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 340.9572489261627
+Elapsed time (unpruned): 53.9587
+Elapsed time (pruned): 51.8434
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 315305
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.95
+Ratio: 79.41
+C 79.36999999999999
+Data has been saved to generelization/ER_200/IM/data/DBLP/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Slashdot Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Slashdot
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 16999
+Pg(%): 74.87
+Ratio: 96.5
+C 72.25
+Data has been saved to generelization/ER_200/IM/data/Slashdot/GNNPruner
+**********
+Action mask length in MCTS: 49635
+Time elpased to create the game 7.2462
+{1419: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 35.22969627380371
+Elapsed time (unpruned): 6.825
+Elapsed time (pruned): 5.6514
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 98.36
+C 98.15
+Data has been saved to generelization/ER_200/IM/data/Slashdot/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 16999
+Time elpased to create the game 5.6545
+{1419: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 63.03884673118591
+Elapsed time (unpruned): 6.7939
+Elapsed time (pruned): 5.8915
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 67640
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.78
+Ratio: 98.21
+C 98.0
+Data has been saved to generelization/ER_200/IM/data/Slashdot/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Twitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Twitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 25507
+Pg(%): 68.4
+Ratio: 99.31
+C 67.92
+Data has been saved to generelization/ER_200/IM/data/Twitter/GNNPruner
+**********
+Action mask length in MCTS: 64471
+Time elpased to create the game 62.6122
+{1587: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 172.77519702911377
+Elapsed time (unpruned): 62.5881
+Elapsed time (pruned): 60.8956
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 92.15
+C 91.97
+Data has been saved to generelization/ER_200/IM/data/Twitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 25507
+Time elpased to create the game 60.9017
+{1587: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 327.3060038089752
+Elapsed time (unpruned): 68.5037
+Elapsed time (pruned): 55.8851
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 80712
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.81
+Ratio: 93.99
+C 93.81
+Data has been saved to generelization/ER_200/IM/data/Twitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for YouTube Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/YouTube
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 374662
+Pg(%): 65.88000000000001
+Ratio: 92.46
+C 60.91
+Data has been saved to generelization/ER_200/IM/data/YouTube/GNNPruner
+**********
+Action mask length in MCTS: 646477
+Time elpased to create the game 289.8388
+{2164: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 789.0070223808289
+Elapsed time (unpruned): 337.9343
+Elapsed time (pruned): 305.8477
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 96.17999999999999
+C 96.17
+Data has been saved to generelization/ER_200/IM/data/YouTube/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 374662
+Time elpased to create the game 305.8886
+{2164: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 1553.685239315033
+Elapsed time (unpruned): 345.2144
+Elapsed time (pruned): 361.8133
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1098104
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 93.57
+C 93.55
+Data has been saved to generelization/ER_200/IM/data/YouTube/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+/home/grads/a/anath/anaconda3/envs/eco_dqn/lib/python3.10/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Solving IM for Skitter Budget 100 Depth 150 with train_dist ER_200
+Data has been loaded from ../snap_dataset/test/Skitter
+Performance of GCNPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 668771
+Pg(%): 60.529999999999994
+Ratio: 99.2
+C 60.040000000000006
+Data has been saved to generelization/ER_200/IM/data/Skitter/GNNPruner
+**********
+Action mask length in MCTS: 1101596
+Time elpased to create the game 2056.4778
+{3766: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 4497.353554010391
+Elapsed time (unpruned): 2132.4905
+Elapsed time (pruned): 1943.2335
+**********
+Performance of MCTSPruner
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 95.81
+C 95.8
+Data has been saved to generelization/ER_200/IM/data/Skitter/MCTSPruner+GNNPruner
+**********
+Pruned universe from GNN is given
+Action mask length in MCTS: 668771
+Time elpased to create the game 1943.3238
+{3766: None Prior: 0.00 Count: 0 Value: 0}
+Total time to prune 8914.838337898254
+Elapsed time (unpruned): 2115.7037
+Elapsed time (pruned): 1958.352
+**********
+Performance of MCTSPruner+GNNPruner+GuidedMCTS
+Size Constraint,k: 100
+Size of Ground Set,|U|: 1694318
+Size of Pruned Ground Set, |Upruned|: 150
+Pg(%): 99.99
+Ratio: 96.23
+C 96.22
+Data has been saved to generelization/ER_200/IM/data/Skitter/MCTSPruner+GNNPruner+GuidedMCTS
+**********
+All commands have been completed.
