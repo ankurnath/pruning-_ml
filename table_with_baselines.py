@@ -48,7 +48,7 @@ for problem in ['MaxCover','MaxCut','IM']:
         # print(_data['Ratio(%)'].values[0],_data['Pruned Ground set(%)'].values[0])
 
 
-print(data['MaxCover']['Facebook'])
+# print(data['MaxCover']['Facebook'])
 
 
 ### Abalation Study
@@ -58,48 +58,105 @@ import os
 import pandas as pd
 from collections import defaultdict
 
-root_folder = 'generelization/BA'
+root_folder = 'generelization/ER_200'
+
 
 for problem in [
     'MaxCover', 
     'MaxCut', 
     'IM'
-    ]:
+]:
     print('*' * 30)
     print(f'{problem}')
-    
-    folder = os.path.join(root_folder,problem, 'data')
+
+    folder = os.path.join(root_folder, problem, 'data')
     datasets = os.listdir(folder)
     new_df = defaultdict(list)
 
     for dataset in datasets:
         new_df['Dataset'].append(dataset)  # Ensure Dataset column aligns with algorithms
 
-        for algorithm in [
-                        # 'MCTSPruner', 
-                        'GNNPruner', 
-                        # 'MCTSPruner+GNNPruner', 
-                        'MCTSPruner+GNNPruner+GuidedMCTS'
-                        ]:
-            file_path = os.path.join(folder, dataset, algorithm)
+        algorithm_heading = {
+            'GNNPruner': 'GNN',
+            'MCTSPruner+GNNPruner+GuidedMCTS': 'GNN+MCTS'
+        }
 
-            # print(file_path)
+        for algorithm in [
+            'GNNPruner', 
+            'MCTSPruner+GNNPruner+GuidedMCTS'
+        ]:
+            file_path = os.path.join(folder, dataset, algorithm)
 
             if os.path.exists(file_path):
                 _data = load_from_pickle(file_path=file_path, quiet=True)
-                # print(_data)
+
                 Pg = (100 - _data['Pruned Ground set(%)'].values[0]) / 100
                 Pr = _data['Ratio(%)'].values[0] / 100
                 C = round(Pg * Pr, 4)
 
-                new_df[algorithm].append(C)
+                new_df[f"{algorithm_heading[algorithm]}_Pg"].append(Pg)
+                new_df[f"{algorithm_heading[algorithm]}_Pr"].append(Pr)
+                new_df[f"{algorithm_heading[algorithm]}_C"].append(C)
             else:
-                new_df[algorithm].append('NA')
+                new_df[f"{algorithm_heading[algorithm]}_Pg"].append('NA')
+                new_df[f"{algorithm_heading[algorithm]}_Pr"].append('NA')
+                new_df[f"{algorithm_heading[algorithm]}_C"].append('NA')
 
     df = pd.DataFrame(new_df).set_index('Dataset')
 
     print(df.to_latex(index=True))
     print('*' * 30)
+
+# for problem in [
+#     'MaxCover', 
+#     'MaxCut', 
+#     'IM'
+#     ]:
+#     print('*' * 30)
+#     print(f'{problem}')
+    
+#     folder = os.path.join(root_folder,problem, 'data')
+#     datasets = os.listdir(folder)
+#     new_df = defaultdict(list)
+
+#     for dataset in datasets:
+#         new_df['Dataset'].append(dataset)  # Ensure Dataset column aligns with algorithms
+
+#         algorithm_heading = {
+                        
+#                         # 'MCTSPruner': 'MCTSPruner',
+#                         'GNNPruner': 'GNN',
+#                         # 'MCTSPruner+GNNPruner': 'GNN+MCTS',
+#                         'MCTSPruner+GNNPruner+GuidedMCTS': 'GNN+MCTS'
+#         }
+
+#         for algorithm in [
+#                         # 'MCTSPruner', 
+#                         'GNNPruner', 
+#                         # 'MCTSPruner+GNNPruner', 
+#                         'MCTSPruner+GNNPruner+GuidedMCTS'
+#                         ]:
+            
+
+#             file_path = os.path.join(folder, dataset, algorithm)
+
+#             # print(file_path)
+
+#             if os.path.exists(file_path):
+#                 _data = load_from_pickle(file_path=file_path, quiet=True)
+#                 # print(_data)
+#                 Pg = (100 - _data['Pruned Ground set(%)'].values[0]) / 100
+#                 Pr = _data['Ratio(%)'].values[0] / 100
+#                 C = round(Pg * Pr, 4)
+
+#                 new_df[algorithm_heading[algorithm]].append(C)
+#             else:
+#                 new_df[algorithm_heading[algorithm]].append('NA')
+
+#     df = pd.DataFrame(new_df).set_index('Dataset')
+
+#     print(df.to_latex(index=True))
+#     print('*' * 30)
 
 # print(new_df)
 

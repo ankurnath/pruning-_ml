@@ -16,7 +16,7 @@ class Game:
                  pre_prune=False,
                 #  GNNpruner = None,
                  train=False,
-                #  greedy_rollout=None
+                 greedy_rollout_func=None
                  ):
 
 
@@ -24,7 +24,7 @@ class Game:
         self.budget = budget
         self.heuristic = heuristic
         self.depth = depth
-        # self.greedy_rollout = greedy_rollout
+        self.greedy_rollout_func = greedy_rollout_func
         self.train = train
         
 
@@ -99,6 +99,7 @@ class Game:
     def has_legal_moves(self, state):
 
         # valid_moves = (state == 1)
+        # return  np.sum(state == 1)>0 and self.depth> np.sum(state==0)
         return  np.sum(state == 1)>0 and self.depth> np.sum(state==0)
         # return self.depth-(self.graph.number_of_nodes()-np.sum(state)-len(self.action_mask)) > 0
 
@@ -112,19 +113,20 @@ class Game:
         return valid_moves
     
 
+    # def get_reward_for_player(self, state, threshold =0.0000001,best_action=None):
     def get_reward_for_player(self, state):
 
-        if self.has_legal_moves(state):
+        # if self.has_legal_moves(state):
 
 
-            # if self.greedy_rollout and self.train:
-            #    return self.greedy_rollout(graph=self.graph, 
-            #                               depth=self.depth, 
-            #                               nodes=np.where(state == 0)[0])
+        #     # if self.greedy_rollout_func and self.train:
+        #     #    return self.greedy_rollout_func(graph=self.graph, 
+        #     #                               depth=self.depth, 
+        #     #                               nodes=np.where(state == 0)[0])
                 
-            # else:
+        #     # else:
 
-            return None
+        #     return None
 
         
         
@@ -133,10 +135,35 @@ class Game:
         # print(len(nodes))
         # subgraph = make_subgraph(graph=self.graph,nodes=nodes)
         # reward,_,_ = self.heuristic(graph=subgraph,budget=self.budget)
+
+        
+        
+
         reward,_,_ = self.heuristic(graph=self.graph,
                                     budget=self.budget,
                                     ground_set=nodes)
-        # print('Reward:',reward/self.max_reward)
+        
+
+        # nodes = list(nodes)
+        # nodes.append(best_action)
+        # # print('Nodes:',nodes)
+
+
+        # new_reward,_,_ = self.heuristic(graph=self.graph,
+        #                             budget=self.budget,
+        #                             ground_set=nodes)
+        
+        # delta = new_reward - reward
+
+        # # print('Delta:',delta)
+
+        # if delta >= reward * threshold:
+
+        #     self.depth = self.depth + 50 
+        #     return None
+
+
+        # print('Reward:',reward)
         return reward/self.max_reward
 
 
@@ -151,7 +178,7 @@ class MaxCover(Game):
                 #  GNNpruner,
                  train,
                  pruned_universe,
-                #  greedy_rollout
+                 greedy_rollout_func = None
                  ):
         # Properly call the parent class's initializer using `super()`
         super().__init__(graph=graph, 
@@ -161,7 +188,7 @@ class MaxCover(Game):
                         #  GNNpruner=GNNpruner,
                          train=train,
                          pruned_universe=pruned_universe,
-                        #  greedy_rollout=greedy_rollout
+                         greedy_rollout_func=greedy_rollout_func
                          )
         
         # Correctly access the `max_reward` attribute from the `graph` object
@@ -177,7 +204,7 @@ class MaxCut(Game):
                 #  GNNpruner,
                  train,
                  pruned_universe,
-                #  greedy_rollout
+                 greedy_rollout_func = None
                  ):
         # Properly call the parent class's initializer using `super()`
 
@@ -190,6 +217,7 @@ class MaxCut(Game):
                         #  GNNpruner = GNNpruner,
                          pruned_universe= pruned_universe,
                          train=train,
+                         greedy_rollout_func=greedy_rollout_func,
                         #  greedy_rollout=greedy_rollout
                          )
         self.max_reward = graph.number_of_edges()

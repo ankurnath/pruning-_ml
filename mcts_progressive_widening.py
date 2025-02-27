@@ -143,6 +143,10 @@ class MCTS_PROGRESSIVE:
 
     def run(self, model, state):
 
+        # print('Running MCTS')
+        # print('Ground set size',state.sum())
+        # print('State',state[50])
+
         # root = Node(0, to_play)
         root = Node(prior=0)
 
@@ -159,7 +163,11 @@ class MCTS_PROGRESSIVE:
         action_probs = action_probs.cpu().detach().numpy()
         
         valid_moves = self.game.get_valid_moves(state)
+        # action_probs = action_probs * state  # mask invalid moves
         action_probs = action_probs * valid_moves  # mask invalid moves
+
+        # print('Action probs',action_probs[50])
+        # print('Max Action child',np.argmax(action_probs))
         # action_probs*=state
         action_probs /= np.sum(action_probs)
         # print(action_probs)
@@ -167,7 +175,7 @@ class MCTS_PROGRESSIVE:
         # pr
         # root.expand(state,action_probs)
         root.expand(action_probs=action_probs)
-        print(root.children)
+        # print(root.children)
         # print(root.expanded(self.k))
 
         # print(self.args['num_simulations'])
@@ -205,11 +213,17 @@ class MCTS_PROGRESSIVE:
             # next_state = self.game.get_next_state(state,action=action)
             state[actions]  = 0
             next_state = state
-            value = self.game.get_reward_for_player(next_state)
 
-            # print('Value',value)
-            if value is None:
-                
+            if len(actions) == self.game.depth:
+                value = self.game.get_reward_for_player(next_state)
+                # print('Value',value)
+            # value = self.game.get_reward_for_player(next_state)
+            # else:
+            #     value = None
+
+            # # print('Value',value)
+            # if value is None:
+            if len(actions) < self.game.depth or value is None:
                 # EXPAND
 
                 ####
@@ -244,7 +258,6 @@ class MCTS_PROGRESSIVE:
         for node in reversed(search_path):
             node.value_sum += value 
             node.visit_count += 1
-
 
 
 

@@ -108,7 +108,7 @@ def greedy(graph,budget,ground_set=None):
 def maxcover_greedy_rollout(graph,depth,nodes):
 
     # print('Using greedy rollout')
-    print('Nodes',nodes)
+    # print('Nodes',nodes)
 
 
    

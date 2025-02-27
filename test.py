@@ -16,9 +16,9 @@ if __name__ == "__main__":
     parser = ArgumentParser()
 
     parser.add_argument( "--dataset", type=str, default='Twitter', help="Name of the dataset to be used (default: 'Facebook')" )
-    parser.add_argument("--problem",type=str,default='MaxCut')
+    parser.add_argument("--problem",type=str,default='MaxCover')
     parser.add_argument("--budget",type=int,default=100)
-    parser.add_argument("--depth",type=int,default=150)
+    parser.add_argument("--depth",type=int,default=50)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
     parser.add_argument("--gnnpruner", type=bool,default=True, help="Whether to use GNNpruner to pre-prune")
     parser.add_argument("--train_dist", type=str,default="ER_200", help="cuda device")
@@ -221,7 +221,7 @@ game  = env(graph=relabel_subgraph,
             train =False)
 
 
-print('Action mask length in MCTS:',len(game.action_mask))  
+# print('Action mask length in MCTS:',len(game.action_mask))  
 end = time.time()
 
 print('Time elpased to create the game',round(end-start,4))
@@ -236,40 +236,67 @@ mcts = MCTS_PROGRESSIVE(game=game,
                         args=args
                         )
 
-root=mcts.run(model=model,state=game.get_init_state())
+old_obj = 1e-10
+threshold = 0.01
+
+state = game.get_init_state()
+pruned_universe = []
+
+while True:
+
+    root=mcts.run(model=model,state=state.copy())
 
 
-node = root
-pruned_universe  = []
-for i in range(depth):
+    node = root
+    actions  = []
+    for i in range(game.depth):
+
+        
+        # if node.expanded():
+        if len(node.children)>0:
+            # print(np.sum(node.state))
+
+            max_visit_count = 0
+            next_node = None
+            best_action = None
+            for action in node.children:
+                child = node.children[action]
+                if child.visit_count>= max_visit_count:
+                    max_visit_count = child.visit_count
+                    
+                    next_node = child
+                    best_action = action 
+            actions.append(best_action)
+            node = next_node
+        else:
+            break
+    
+    # print(actions)
+    _actions = [reverse_transformation[action] for action in actions]
+
 
     
-    # if node.expanded():
-    if len(node.children)>0:
-        # print(np.sum(node.state))
+    pruned_universe.extend(_actions)
 
-        max_visit_count = 0
-        next_node = None
-        best_action = None
-        for action in node.children:
-            child = node.children[action]
-            if child.visit_count>= max_visit_count:
-                max_visit_count = child.visit_count
-                
-                next_node = child
-                best_action = action 
-        pruned_universe.append(best_action)
-        node = next_node
+    new_obj,_,_ = heuristic(graph=test_graph,
+                                    budget=budget,
+                                    ground_set=pruned_universe)
+    
+    if (new_obj-old_obj)/old_obj>threshold:
+        # pass
+        # state = game.get_init_state()
+        state[actions] = 0
+        print('Restarting MCTS')
+        old_obj = new_obj
+
     else:
         break
-
-
 
 end= time.time()
 
 time_to_prune = end-start
 
-# print('time elapsed to pruned',time_to_prune)
+print('time elapsed to pruned',time_to_prune)
 
 
 # # print([test_graph.degree(node) for node in pruned_universe])
@@ -279,7 +306,7 @@ time_to_prune = end-start
 #     pruned_universe = [game.reverse_mapping[node] for node in pruned_universe]
 #     # print(sorted(pruned_universe))
 # else:
-pruned_universe = [reverse_transformation[node] for node in pruned_universe]
+# pruned_universe = [reverse_transformation[node] for node in pruned_universe]
 
 # for node in pruned_universe:
 #     if node not in pruned_universe_gnn:
@@ -324,14 +351,14 @@ print('C',round((1-Pg)*ratio,4)*100)
 # print('Queries:',round(queries_pruned/queries_unpruned,4)*100)
 
 
-save_folder = f'{problem}/data/{dataset}'
-os.makedirs(save_folder,exist_ok=True)
+# save_folder = f'{problem}/data/{dataset}'
+# os.makedirs(save_folder,exist_ok=True)
 
-# if pre_prune:
-#     save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner')
+# # if pre_prune:
+# #     save_file_path = os.path.join(save_folder,'MCTSPruner+GNNPruner')
 
-# else:
-#     save_file_path = os.path.join(save_folder,'MCTSPruner')
+# # else:
+# #     save_file_path = os.path.join(save_folder,'MCTSPruner')
 
 
 
@@ -402,42 +429,102 @@ mcts = MCTS_PROGRESSIVE(game=game,
                         k=0.1,
                         args=args
                         )
+old_obj = 1e-10
+threshold = 0.01
 
-root=mcts.run(model=model,state=game.get_init_state())
+state = game.get_init_state()
+pruned_universe = []
+
+while True:
+
+    root=mcts.run(model=model,state=state.copy())
 
 
-node = root
-pruned_universe  = []
-for i in range(depth):
+    node = root
+    actions  = []
+    for i in range(game.depth):
+
+        
+        # if node.expanded():
+        if len(node.children)>0:
+            # print(np.sum(node.state))
+
+            max_visit_count = 0
+            next_node = None
+            best_action = None
+            for action in node.children:
+                child = node.children[action]
+                if child.visit_count>= max_visit_count:
+                    max_visit_count = child.visit_count
+                    
+                    next_node = child
+                    best_action = action 
+            actions.append(best_action)
+            node = next_node
+        else:
+            break
+    
+    # print(actions)
+    _actions = [reverse_transformation[action] for action in actions]
+
 
     
-    # if node.expanded():
-    if len(node.children)>0:
-        # print(np.sum(node.state))
+    pruned_universe.extend(_actions)
 
-        max_visit_count = 0
-        next_node = None
-        best_action = None
-        for action in node.children:
-            child = node.children[action]
-            if child.visit_count>= max_visit_count:
-                max_visit_count = child.visit_count
-                
-                next_node = child
-                best_action = action 
-        pruned_universe.append(best_action)
-        node = next_node
+    new_obj,_,_ = heuristic(graph=test_graph,
+                                    budget=budget,
+                                    ground_set=pruned_universe)
+    
+    if (new_obj-old_obj)/old_obj>threshold:
+        # pass
+        # state = game.get_init_state()
+        state[actions] = 0
+        # print('Restarting MCTS')
+        old_obj = new_obj
+
     else:
         break
-
-
 
 end= time.time()
 
 time_to_prune = end-start
 
-# print('time elapsed to pruned',time_to_prune)
+print('time elapsed to pruned',time_to_prune)
+# root=mcts.run(model=model,state=game.get_init_state())
 
+
+# node = root
+# pruned_universe  = []
+# for i in range(game.depth):
+
+    
+#     # if node.expanded():
+#     if len(node.children)>0:
+#         # print(np.sum(node.state))
+
+#         max_visit_count = 0
+#         next_node = None
+#         best_action = None
+#         for action in node.children:
+#             child = node.children[action]
+#             if child.visit_count>= max_visit_count:
+#                 max_visit_count = child.visit_count
+                
+#                 next_node = child
+#                 best_action = action 
+#         pruned_universe.append(best_action)
+#         node = next_node
+#     else:
+#         break
+
+
+
+# end= time.time()
+
+# time_to_prune = end-start
+
+# print('time elapsed to pruned',time_to_prune)
+# pruned_universe = [reverse_transformation[node] for node in pruned_universe]
 
 # # print([test_graph.degree(node) for node in pruned_universe])
 # print(pruned_universe)
@@ -446,7 +533,7 @@ time_to_prune = end-start
 #     pruned_universe = [game.reverse_mapping[node] for node in pruned_universe]
 #     # print(sorted(pruned_universe))
 # else:
-pruned_universe = [reverse_transformation[node] for node in pruned_universe]
+
 
 # for node in pruned_universe:
 #     if node not in pruned_universe_gnn:

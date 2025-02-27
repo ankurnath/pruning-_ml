@@ -66,11 +66,11 @@ if __name__ == "__main__":
     mcts_args = {
         'batch_size': 10,
         'numIters': 10,                                # Total number of training iterations
-        'num_simulations': 10000,                         # Total number of MCTS simulations to run when deciding on a move to play
+        'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
         'numEps': 1,
                                                                             # Number of full games (episodes) to run during each iteration
         # 'numItersForTrainExamplesHistory': 20,
-        'epochs': 1,                                    # Number of epochs of training per iteration
+        'epochs': 5,                                    # Number of epochs of training per iteration
         'checkpoint_path': save_file_path                # location to save latest set of weights
     }
 
@@ -83,12 +83,12 @@ if __name__ == "__main__":
         heuristic = maxcover_heuristic
         problem = MaxCover
         if greedy_rollout:
-            greedy_rollout = maxcover_rollout
+            greedy_rollout_func = maxcover_rollout
     elif problem =='MaxCut':
         heuristic = maxcut_heuristic
         problem = MaxCut
         if greedy_rollout:
-            greedy_rollout = maxcover_rollout
+            greedy_rollout_func = maxcover_rollout
     elif problem == 'IM':
         heuristic = imm
         problem = IM
@@ -117,6 +117,7 @@ if __name__ == "__main__":
                   depth=depth,
                 #   GNNpruner=pruner,
                   train=True,
+                #   greedy_rollout_func=greedy_rollout_func,
                 #   greedy_rollout=greedy_rollout
                   )
    
