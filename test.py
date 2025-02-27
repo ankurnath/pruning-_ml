@@ -402,6 +402,46 @@ else:
 
 print('*'*10)
 
+# Multi-Budget analysis
+budgets = [1,10,25,50,75,100]
+save_folder = f'{problem}_multibudget/data/{dataset}'
+os.makedirs(save_folder,exist_ok=True)
+
+ratios = []
+for budget in budgets:
+    print('Solving for budget:',budget)
+    
+    objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
+    
+    objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
+                                                                budget=budget,
+                                                                ground_set=pruned_universe)
+    
+
+    
+    
+    ratio = objective_pruned/objective_unpruned
+
+    ratios.append(ratio)
+
+
+    print('Performance of MCTSPruner')
+    print('Ratio:',round(ratio,4)*100)
+
+
+save_file_path = os.path.join(save_folder,f'MCTSPruner')
+
+
+df = { 'Dataset':[dataset]*len(budgets),
+    'budegt':budgets,
+    'Ratio':ratios
+    }
+
+df = pd.DataFrame(df)
+print(df)
+
+save_to_pickle(df,save_file_path)
+
 
 
 #### Guided MCTS
@@ -631,45 +671,7 @@ print('*'*10)
 
 
 
-# Multi-Budget analysis
-# budgets = [1,10,25,50,75,100]
-# save_folder = f'{problem}_multibudget/data/{dataset}'
-# os.makedirs(save_folder,exist_ok=True)
 
-# ratios = []
-# for budget in budgets:
-#     print('Solving for budget:',budget)
-    
-#     objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
-    
-#     objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
-#                                                                 budget=budget,
-#                                                                 ground_set=pruned_universe)
-    
-
-    
-    
-#     ratio = objective_pruned/objective_unpruned
-
-#     ratios.append(ratio)
-
-
-#     print('Performance of MCTSPruner')
-#     print('Ratio:',round(ratio,4)*100)
-
-
-# save_file_path = os.path.join(save_folder,f'MCTSPruner')
-
-
-# df = {     'Dataset':[dataset]*len(budgets),
-#     'budegt':budgets,
-#     'Ratio':ratios
-#     }
-
-# df = pd.DataFrame(df)
-# print(df)
-
-# save_to_pickle(df,save_file_path)
 
         
 

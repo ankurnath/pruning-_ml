@@ -12,20 +12,36 @@ from imm import imm
 # Specify problems
 problems = ['MaxCover']
 
+labels = {
+    'MCTSPruner+GNNPruner': 'Hierarchical DeepPruner',
+    'GCOMB': 'GCOMB',
+    'LeNSE': 'LeNSE',
+    'COMBHelper': 'COMBHelper',
+      
+}
+
 for problem in problems:
     folder = f'{problem}/data'
     datasets = os.listdir(folder)
     df = defaultdict(list)
     
+
+
     for dataset in datasets:
         dataset_folder = os.path.join(folder, dataset)
-        algorithms = ['MCTSPruner', "GCOMB", 'LeNSE', 'COMBHelper']
+        algorithms = ['MCTSPruner+GNNPruner', "GCOMB", 'LeNSE', 'COMBHelper']
         
         for algorithm in algorithms:
+
+            
+
             try:
-                data = load_from_pickle(os.path.join(dataset_folder, algorithm))
+                if algorithm == 'MCTSPruner+GNNPruner':
+                    data = load_from_pickle(os.path.join('generelization/ER_200/MaxCover/data', dataset, 'MCTSPruner+GNNPruner'))
+                else:
+                    data = load_from_pickle(os.path.join(dataset_folder, algorithm))
                 df['Dataset'].append(dataset)
-                df['Algorithm'].append(algorithm)
+                df['Algorithm'].append(labels[algorithm])
                 df['Speed-up'].append(data['Speedup'].iloc[0])
             except:
                 pass
