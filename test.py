@@ -402,45 +402,7 @@ else:
 
 print('*'*10)
 
-# Multi-Budget analysis
-budgets = [1,10,25,50,75,100]
-save_folder = f'{problem}_multibudget/data/{dataset}'
-os.makedirs(save_folder,exist_ok=True)
 
-ratios = []
-for budget in budgets:
-    print('Solving for budget:',budget)
-    
-    objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
-    
-    objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
-                                                                budget=budget,
-                                                                ground_set=pruned_universe)
-    
-
-    
-    
-    ratio = objective_pruned/objective_unpruned
-
-    ratios.append(ratio)
-
-
-    print('Performance of MCTSPruner')
-    print('Ratio:',round(ratio,4)*100)
-
-
-save_file_path = os.path.join(save_folder,f'MCTSPruner')
-
-
-df = { 'Dataset':[dataset]*len(budgets),
-    'budegt':budgets,
-    'Ratio':ratios
-    }
-
-df = pd.DataFrame(df)
-print(df)
-
-save_to_pickle(df,save_file_path)
 
 
 
@@ -667,6 +629,52 @@ else:
     save_to_pickle(df,save_file_path)
 
 print('*'*10)
+
+
+
+# Multi-Budget Analysis
+print('Starting Multi-Budget Analysis')
+
+# Define budget levels for evaluation
+budget_list = [1, 10, 25, 50, 75, 100]
+
+# Set up the output directory
+output_dir = f'{problem}_multibudget/data/{dataset}'
+os.makedirs(output_dir, exist_ok=True)
+
+# Store performance ratios
+performance_ratios = []
+
+for budget in budget_list:
+    print(f'Evaluating heuristic for budget: {budget}')
+
+    # Run heuristic without pruning
+    objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph, budget)
+
+    # Run heuristic with pruning
+    objective_pruned, solution_pruned, queries_pruned = heuristic(
+        graph=test_graph, budget=budget, ground_set=pruned_universe
+    )
+
+    # Compute pruning effectiveness
+    pruning_effectiveness = objective_pruned / objective_unpruned
+    performance_ratios.append(pruning_effectiveness)
+
+    print('MCTS Pruning Performance:')
+    print(f'Effectiveness Ratio: {round(pruning_effectiveness * 100, 4)}%')
+
+# Save results to a DataFrame
+results_df = pd.DataFrame({
+    'Dataset': [dataset] * len(budget_list),
+    'Budget': budget_list,
+    'Ratio': performance_ratios
+})
+
+print(results_df)
+
+# Save the DataFrame to a file
+output_file = os.path.join(output_dir, 'MCTSPruner')
+save_to_pickle(results_df, output_file)
 # save_to_pickle(df,save_file_path)
 
 
