@@ -19,10 +19,8 @@ def download(datasets):
                 "Twitter":"https://snap.stanford.edu/data/twitter_combined.txt.gz",
                 }
 
-    # current_folder = os.getcwd()
-    # print(current_folder)
-    # save_path= os.path.join(current_folder,f'data/snap_dataset')
-    save_path= os.path.join(f'../snap_dataset')
+   
+    save_path= os.path.join(f'data/snap_dataset')
     os.makedirs(save_path,exist_ok=True)
 
 
@@ -57,7 +55,7 @@ def download(datasets):
         else:
             print(f"{dataset} has already been decompressed. Skipping.")
 
-        # os.remove(input_file)
+    print("All datasets downloaded and decompressed successfully.")
 
         
 

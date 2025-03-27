@@ -148,7 +148,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
     parser.add_argument( "--budget", type= int , default= 100, help="Budget" )
-    parser.add_argument( "--problem", type= str , default= "MaxCover", help="Problem" )
+    parser.add_argument( "--problem", type= str , default= "MaxCover", help="[MaxCover,MaxCut,IM]" )
     args = parser.parse_args()
 
 
