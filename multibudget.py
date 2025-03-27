@@ -31,7 +31,7 @@ for problem in problems:
         # print(' & ', end='')
 
         for ratio in ratios:
-            print(f'& {round(ratio,4)} ', end='')
+            print(f'& {ratio:.4f} ', end='')
         print('\\\\')
     print(' \\hline')
         

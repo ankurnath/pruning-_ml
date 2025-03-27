@@ -13,7 +13,7 @@ from imm import imm
 problems = ['MaxCover']
 
 labels = {
-    'MCTSPruner+GNNPruner': 'Hierarchical DeepPruner',
+    'MCTSPruner+GNNPruner': 'H-DeepPruner',
     'GCOMB': 'GCOMB',
     'LeNSE': 'LeNSE',
     'COMBHelper': 'COMBHelper',
@@ -53,13 +53,13 @@ for problem in problems:
     # plt.figure(figsize=(10, 6))
     plt.figure(figsize=(10, 3))
     sns.barplot(data=df, x="Dataset", y="Speed-up", hue="Algorithm",edgecolor='black',
-                palette=['#f9766e','#75ba75','#a20dfd','#f5945c'])
+                palette=['#f9766e','#75ba75','#619dff','#f5945c'])
     sns.despine()
     
     # plt.title(f"Speed-up Comparison for {problem}", fontsize=14)
     # plt.xlabel("Dataset", fontsize=12)
     plt.xlabel('')
-    plt.ylabel("Speed-up", fontsize=20)
+    plt.ylabel(r"Speed-up, $S = \frac{time_{\mathcal{U}}}{time_{\mathcal{U} '} + time_{prune}}$", fontsize=10)
     plt.legend(title="Algorithm", fontsize=10)
     plt.xticks(fontsize=17)
     plt.yticks(fontsize =17)

@@ -36,7 +36,7 @@ class PolicyValueGCN(nn.Module):
 
         value = self.value_head(x)
 
-        return policy,F.sigmoid(value) 
+        return policy, F.sigmoid(value) 
     
 
 

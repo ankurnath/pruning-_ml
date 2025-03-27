@@ -431,7 +431,7 @@ mcts = MCTS_PROGRESSIVE(game=game,
                         k=0.1,
                         args=args
                         )
-old_obj = 1e-10
+old_obj = 0
 threshold = 0.01
 
 state = game.get_init_state()
@@ -474,10 +474,10 @@ while True:
     pruned_universe.extend(_actions)
 
     new_obj,_,_ = heuristic(graph=test_graph,
-                                    budget=budget,
-                                    ground_set=pruned_universe)
+                            budget=budget,
+                            ground_set=pruned_universe)
     
-    if (new_obj-old_obj)/old_obj>threshold:
+    if (new_obj-old_obj)>threshold*old_obj:
         # pass
         # state = game.get_init_state()
         state[actions] = 0

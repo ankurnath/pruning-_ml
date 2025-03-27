@@ -253,10 +253,15 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
             # print(f'{data[problem][dataset][algorithm]["C"]}', end='')
             # print('}', end='')
 
-            print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
+            # print(f'& {data[problem][dataset][algorithm]["Pr"]}', end='')
+            # print(f'& {data[problem][dataset][algorithm]["Pr"]:.4f}', end='')
+            value = data[problem][dataset][algorithm]["Pr"]
+            print(f'& {value:.4f}' if isinstance(value, (int, float)) else f'& {value}', end='')
 
             # Print `Pg` value
-            print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
+            # print(f'& {data[problem][dataset][algorithm]["Pg"]}', end='')
+            value = data[problem][dataset][algorithm]["Pg"]
+            print(f'& {value:.4f}' if isinstance(value, (int, float)) else f'& {value}', end='')
 
             # Print `C` value
             if algorithm == 'LeNSE':
@@ -269,10 +274,16 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
 
             if algorithm == best_algo:
                 print('\\textbf{', end='')
-                print(f'{data[problem][dataset][algorithm]["C"]}', end='')
+
+                value = data[problem][dataset][algorithm]["C"]
+                print(f'{value:.4f}' if isinstance(value, (int, float)) else f'{value}', end='')
+
+                # print(f'{data[problem][dataset][algorithm]["C"]}', end='')
                 print('}', end='')
             else:
-                print(f'{data[problem][dataset][algorithm]["C"]}', end='')
+                value = data[problem][dataset][algorithm]["C"]
+                print(f'{value:.4f}' if isinstance(value, (int, float)) else f'{value}', end='')
+                # print(f'{data[problem][dataset][algorithm]["C"]}', end='')
             print('}', end='')
 
         # End the row
@@ -280,5 +291,100 @@ for problem in ['MaxCover', 'MaxCut', 'IM']:
 
     # Print the horizontal line after each problem
     print('\\hline')
+
+
+
+# print(data['MaxCover'])
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Assuming 'data' is already loaded as your dataset, with "C" values under each problem, algorithm, and dataset.
+
+# Prepare a DataFrame for plotting
+plot_data = []
+
+# Iterate through the problems, algorithms, and datasets
+for problem in ['MaxCover', 'MaxCut', 'IM']:
+    for algorithm in ['MCTSPruner+GNNPruner+GuidedMCTS', 'GCOMB', 'COMBHelper', 'LeNSE']:
+        for dataset in data[problem]:
+            try:
+                value = data[problem][dataset][algorithm]["C"]
+                if value == '--':
+                    continue
+                plot_data.append({
+                    'Problem': problem,
+                    'Algorithm': algorithm,
+                    'Dataset': dataset,
+                    'Combined Matric': value
+                })
+            except KeyError:
+                pass
+
+# Convert to DataFrame
+df = pd.DataFrame(plot_data)
+
+# print(df)
+
+# Create subplots for each problem
+fig, axes = plt.subplots(1, 3, figsize=(18, 6),dpi=200)
+
+# If there's only one subplot, axes won't be a list, so handle it
+if len(df['Problem'].unique()) == 1:
+    axes = [axes]
+
+font_size = 17
+tick_size = 12
+title_size = 20
+
+titles = {'MaxCover':'Maximum Cover','MaxCut':'Maximum Cut','IM':'Influence Maximization'}
+for i,(ax, problem) in enumerate(zip(axes, df['Problem'].unique())) :
+    subset = df[df['Problem'] == problem]
+
+    
+    sns.boxplot(x='Algorithm', 
+                   y='Combined Matric', 
+                   data=subset, 
+                   ax=ax,
+                   fill = False,
+                   palette='rocket',
+                   linewidth=2.5
+                   )
+    
+    # Swarm plot overlay
+    sns.swarmplot(x='Algorithm', 
+              y='Combined Matric', 
+              data=subset, 
+              ax=ax, 
+              color='black',  # Ensures contrast
+              alpha=0.7,      # Transparency for better visibility
+              size=6)         # Adjust point size
+    # ax.set_title(f'Violin Plot for {problem}')
+    if i == 0:
+        ax.set_ylabel('Combined Matric, $C=P_rP_g$', fontsize=font_size)
+    else:
+        ax.set_ylabel('')  # Set an empty label if needed
+    ax.set_xlabel('')
+    ax.tick_params(axis='x', labelsize=tick_size+10,labelrotation=45)
+    ax.tick_params(axis='y', labelsize=tick_size+3)
+
+    
+    ax.set_title(f'{titles[problem]}', fontsize=title_size)
+    
+    sns.despine()
+    ax.invert_yaxis()
+    ax.set_xticklabels(['H-DeepPruner\n(OURS)','GCOMB','COMBHelper','LeNSE'])
+
+    
+
+plt.tight_layout()
+
+# Save the figure as a PDF
+plt.savefig('violin_plots.pdf', format='pdf')
+
+# Show the plots
+plt.show()
+
 
 
