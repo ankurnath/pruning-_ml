@@ -1,4 +1,4 @@
-# H\_DeepPruner
+# Hierarchical-DeepPruner
 
 ## Setup
 
