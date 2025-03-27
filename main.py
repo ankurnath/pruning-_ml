@@ -17,14 +17,14 @@ if __name__ == "__main__":
     torch.cuda.manual_seed(42)
     parser = ArgumentParser()
 
-    parser.add_argument( "--dataset", type=str, default='Twitter', help="Name of the dataset to be used (default: 'Facebook')" )
-    parser.add_argument("--problem",type=str,default='MaxCut')
+    parser.add_argument( "--dataset", type=str, default='ER_200', help="Name of the dataset to be used (default: 'Facebook')" )
+    parser.add_argument("--problem",type=str,default='MaxCover',help="Problem to solve")
     parser.add_argument("--budget",type=int,default=10)
     parser.add_argument("--depth",type=int,default=10)
     parser.add_argument("--device", type=int,default=None, help="cuda device")
-    parser.add_argument("--pre_prune", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
-    parser.add_argument("--guide_with_expert", type=bool,default=False, help="Guide with expert")
-    parser.add_argument("--greedy_rollout", type=bool,default=False, help="Greedy rollout")
+    # parser.add_argument("--pre_prune", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
+    # parser.add_argument("--guide_with_expert", type=bool,default=False, help="Guide with expert")
+    # parser.add_argument("--greedy_rollout", type=bool,default=False, help="Greedy rollout")
     args = parser.parse_args()
 
     
@@ -47,27 +47,27 @@ if __name__ == "__main__":
     budget = args.budget
     depth = args.depth
     problem = args.problem
-    pre_prune = args.pre_prune
-    guide_with_expert = args.guide_with_expert
-    greedy_rollout= args.greedy_rollout
+    # pre_prune = args.pre_prune
+    # guide_with_expert = args.guide_with_expert
+    # greedy_rollout= args.greedy_rollout
 
     print(f'Training for the problem {problem} Dataset {dataset} Budget {budget}')
 
-    save_folder = f'pretrained/{problem}/{dataset}'
+    save_folder = f'pretrained/MCTSPruner/{problem}/{dataset}'
     os.makedirs(save_folder,exist_ok=True)
 
 
-    if pre_prune:
-        # GNN pruning + then training
-        save_file_path = os.path.join(save_folder,'best_model_gnnpruner.pth')
-    else: 
-        save_file_path = os.path.join(save_folder,'best.pth')
+    # if pre_prune:
+    #     # GNN pruning + then training
+    #     save_file_path = os.path.join(save_folder,'best_model_gnnpruner.pth')
+    # else: 
+    save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
         'batch_size': 10,
         'numIters': 10,                                # Total number of training iterations
         'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
-        'numEps': 1,
+        'numEps': 5,
                                                                             # Number of full games (episodes) to run during each iteration
         # 'numItersForTrainExamplesHistory': 20,
         'epochs': 5,                                    # Number of epochs of training per iteration
@@ -77,18 +77,18 @@ if __name__ == "__main__":
 
 
     model = PolicyValueGCN()
-    train_graph = load_graph(f'../snap_dataset/train/{dataset}')
+    train_graph = load_graph(f'data/train/{dataset}')
     
     if problem =='MaxCover':
         heuristic = maxcover_heuristic
         problem = MaxCover
-        if greedy_rollout:
-            greedy_rollout_func = maxcover_rollout
+        # if greedy_rollout:
+        #     greedy_rollout_func = maxcover_rollout
     elif problem =='MaxCut':
         heuristic = maxcut_heuristic
         problem = MaxCut
-        if greedy_rollout:
-            greedy_rollout_func = maxcover_rollout
+        # if greedy_rollout:
+        #     greedy_rollout_func = maxcover_rollout
     elif problem == 'IM':
         heuristic = imm
         problem = IM
@@ -98,16 +98,16 @@ if __name__ == "__main__":
     
 
 
-    if pre_prune:
+    # if pre_prune:
 
-        pruner = GNNpruner()
-        save_folder =  f'pretrained/{args.problem}/GNNpruner/{dataset}'
-        pruner.train(train_graph=train_graph,budget=budget,heuristic=heuristic,save_folder =save_folder)
-        load_model_path = os.path.join(save_folder,'best_model.pth')
-        pruner.model.load_state_dict(torch.load(load_model_path,weights_only=False))
+    #     pruner = GNNpruner()
+    #     save_folder =  f'pretrained/{args.problem}/GNNpruner/{dataset}'
+    #     pruner.train(train_graph=train_graph,budget=budget,heuristic=heuristic,save_folder =save_folder)
+    #     load_model_path = os.path.join(save_folder,'best_model.pth')
+    #     pruner.model.load_state_dict(torch.load(load_model_path,weights_only=False))
 
-    else:
-        pruner = None
+    # else:
+    #     pruner = None
 
     game = problem(graph=train_graph,
                   heuristic=heuristic,

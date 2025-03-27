@@ -146,8 +146,8 @@ class GNNpruner:
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument( "--dataset", type=str, default='Facebook', help="Name of the dataset to be used (default: 'Facebook')" )
-    parser.add_argument( "--budget", type= int , default= 100, help="Budget" )
+    parser.add_argument( "--dataset", type=str, default='ER_200', help="Name of the dataset to be used (default: 'Facebook')" )
+    parser.add_argument( "--budget", type= int , default= 10, help="Budget" )
     parser.add_argument( "--problem", type= str , default= "MaxCover", help="[MaxCover,MaxCut,IM]" )
     args = parser.parse_args()
 
@@ -166,8 +166,8 @@ if __name__ == "__main__":
         raise ValueError('Unknown Problem')
 
 
-    # file_path = f'data/snap_dataset/{dataset}.txt'
-    train_graph =  load_graph(f'../snap_dataset/train/{dataset}')
+    
+    train_graph =  load_graph(f'data/train/{dataset}')
 
 
     pruner = GNNpruner()
@@ -180,26 +180,7 @@ if __name__ == "__main__":
                  save_folder =save_folder)
     
    
-    # load_model_path = os.path.join(save_folder,'best_model.pth')
-    # pruner.model.load_state_dict(torch.load(load_model_path))
-    # test_graph = load_graph(f'../snap_dataset/test/{dataset}')
-    # pruned_universe = pruner.test(test_graph=test_graph)
-
-    # Pg = len(pruned_universe)/test_graph.number_of_nodes()
-    # objective_unpruned, solution_unpruned, queries_unpruned = heuristic(test_graph,budget)
-    # objective_pruned,solution_pruned, queries_pruned = heuristic(graph=test_graph,
-    #                                                              budget=budget,
-    #                                                              ground_set=pruned_universe)
-    # ratio = objective_pruned/objective_unpruned
-
-    # print('Performance of GCNPruner')
-    # print('Size Constraint,k:',budget)
-    # print('Size of Ground Set,|U|:',test_graph.number_of_nodes())
-    # print('Size of Pruned Ground Set, |Upruned|:', len(pruned_universe))
-    # print('Pg(%):', round(1-Pg,4)*100)
-    # print('Ratio:',round(ratio,4)*100)
-    # print('C',round((1-Pg)*ratio,4)*100)
-
+    
 
 
 

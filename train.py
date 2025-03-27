@@ -1,5 +1,5 @@
 from utils import *
-from game import MaxCover
+# from game import MaxCover
 from model import PolicyValueGCN
 from mcts import MCTS
 
