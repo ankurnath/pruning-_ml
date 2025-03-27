@@ -190,10 +190,7 @@ class MCTS:
                 action_probs = action_probs.cpu().detach().numpy()
                 value = value.item()
 
-                if self.game.greedy_rollout_func is not None:
-                    value = self.game.greedy_rollout_func(graph=self.game.graph, 
-                                          depth=self.game.depth, 
-                                          nodes=np.where(next_state == 0)[0])
+                
                 valid_moves = self.game.get_valid_moves(next_state)
                 action_probs = action_probs * valid_moves  # mask invalid moves
                 action_probs /= np.sum(action_probs)

@@ -16,7 +16,7 @@ class Game:
                  pre_prune=False,
                 #  GNNpruner = None,
                  train=False,
-                 greedy_rollout_func=None
+                #  greedy_rollout_func=None
                  ):
 
 
@@ -24,7 +24,7 @@ class Game:
         self.budget = budget
         self.heuristic = heuristic
         self.depth = depth
-        self.greedy_rollout_func = greedy_rollout_func
+        # self.greedy_rollout_func = greedy_rollout_func
         self.train = train
         
 
@@ -144,26 +144,7 @@ class Game:
                                     ground_set=nodes)
         
 
-        # nodes = list(nodes)
-        # nodes.append(best_action)
-        # # print('Nodes:',nodes)
-
-
-        # new_reward,_,_ = self.heuristic(graph=self.graph,
-        #                             budget=self.budget,
-        #                             ground_set=nodes)
         
-        # delta = new_reward - reward
-
-        # # print('Delta:',delta)
-
-        # if delta >= reward * threshold:
-
-        #     self.depth = self.depth + 50 
-        #     return None
-
-
-        # print('Reward:',reward)
         return reward/self.max_reward
 
 
@@ -178,7 +159,7 @@ class MaxCover(Game):
                 #  GNNpruner,
                  train,
                  pruned_universe,
-                 greedy_rollout_func = None
+                #  greedy_rollout_func = None
                  ):
         # Properly call the parent class's initializer using `super()`
         super().__init__(graph=graph, 
@@ -188,7 +169,7 @@ class MaxCover(Game):
                         #  GNNpruner=GNNpruner,
                          train=train,
                          pruned_universe=pruned_universe,
-                         greedy_rollout_func=greedy_rollout_func
+                        #  greedy_rollout_func=greedy_rollout_func
                          )
         
         # Correctly access the `max_reward` attribute from the `graph` object
@@ -204,7 +185,7 @@ class MaxCut(Game):
                 #  GNNpruner,
                  train,
                  pruned_universe,
-                 greedy_rollout_func = None
+                #  greedy_rollout_func = None
                  ):
         # Properly call the parent class's initializer using `super()`
 
@@ -217,7 +198,7 @@ class MaxCut(Game):
                         #  GNNpruner = GNNpruner,
                          pruned_universe= pruned_universe,
                          train=train,
-                         greedy_rollout_func=greedy_rollout_func,
+                        #  greedy_rollout_func=greedy_rollout_func,
                         #  greedy_rollout=greedy_rollout
                          )
         self.max_reward = graph.number_of_edges()
@@ -278,9 +259,9 @@ class IM(Game):
             self.reverse_mapping = reverse_mapping
 
 
-            print(np.max([graph.degree(node) for node in graph.nodes()]))
-            print('Coverage:',coverage)
-            print([self.graph.degree(node) for node in self.action_mask])
+            # print(np.max([graph.degree(node) for node in graph.nodes()]))
+            # print('Coverage:',coverage)
+            # print([self.graph.degree(node) for node in self.action_mask])
 
             self.rr = rr
 

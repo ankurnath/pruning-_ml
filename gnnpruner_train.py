@@ -172,7 +172,7 @@ if __name__ == "__main__":
 
     pruner = GNNpruner()
 
-    save_folder =  f'pretrained/{problem}/GNNpruner/{dataset}'
+    save_folder =  f'pretrained/GNNpruner/{problem}/{dataset}'
 
     pruner.train(train_graph=train_graph,
                  budget=budget,

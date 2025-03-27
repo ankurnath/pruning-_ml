@@ -128,6 +128,8 @@ class Trainer:
 
             batch_idx = 0
 
+            # 
+
             while batch_idx < int(len(examples) / self.args['batch_size']):
                 sample_ids = np.random.randint(len(examples), size=self.args['batch_size'])
                 # boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
