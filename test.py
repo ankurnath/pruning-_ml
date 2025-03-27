@@ -5,7 +5,7 @@ from model import PolicyValueGCN
 from updated_game import MaxCover,MaxCut,IM
 
 from greedy_maxcover import greedy as maxcover_heuristic
-# from greedy_original_maxcover import greedy_maxcover
+
 from greedy_maxcut import greedy as maxcut_heuristic
 from imm import imm
 from gnnpruner_train import *
