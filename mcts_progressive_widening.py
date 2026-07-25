@@ -91,7 +91,7 @@ class Node:
             self.actions = np.argsort(-action_probs)
         
         best_action = self.actions[len(self.children)]
-        best_action_prob = self.action_probs[len(self.children)]
+        best_action_prob = self.action_probs[best_action]
         # action_probs = action_probs.reshape(action_probs.shape[0],)
 
 

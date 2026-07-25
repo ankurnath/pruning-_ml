@@ -25,6 +25,11 @@ if __name__ == "__main__":
     # parser.add_argument("--pre_prune", type=bool,default=False, help="Whether to use GNNpruner to pre prune")
     # parser.add_argument("--guide_with_expert", type=bool,default=False, help="Guide with expert")
     # parser.add_argument("--greedy_rollout", type=bool,default=False, help="Greedy rollout")
+    parser.add_argument("--batch_size", type=int, default=5, help="Training batch size")
+    parser.add_argument("--numIters", type=int, default=10, help="Total number of training iterations")
+    parser.add_argument("--num_simulations", type=int, default=1000, help="Number of MCTS simulations per move")
+    parser.add_argument("--numEps", type=int, default=10, help="Number of full episodes run per training iteration")
+    parser.add_argument("--epochs", type=int, default=5, help="Number of epochs of training per iteration")
     args = parser.parse_args()
 
     
@@ -64,13 +69,13 @@ if __name__ == "__main__":
     save_file_path = os.path.join(save_folder,'best.pth')
 
     mcts_args = {
-        'batch_size': 5,
-        'numIters': 10,                                # Total number of training iterations
-        'num_simulations': 1000,                         # Total number of MCTS simulations to run when deciding on a move to play
-        'numEps': 10,
+        'batch_size': args.batch_size,
+        'numIters': args.numIters,                      # Total number of training iterations
+        'num_simulations': args.num_simulations,          # Total number of MCTS simulations to run when deciding on a move to play
+        'numEps': args.numEps,
                                                                             # Number of full games (episodes) to run during each iteration
         # 'numItersForTrainExamplesHistory': 20,
-        'epochs': 5,                                    # Number of epochs of training per iteration
+        'epochs': args.epochs,                          # Number of epochs of training per iteration
         'checkpoint_path': save_file_path                # location to save latest set of weights
     }
 

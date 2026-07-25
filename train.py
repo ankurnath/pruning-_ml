@@ -80,8 +80,9 @@ class Trainer:
                     # data_copy = data.copy()
                     data_copy = data.clone()  # Use clone for deep copy instead of copy()
                     data_copy.x = torch.from_numpy(hist_state)
-                    hist_action_probs[self.game.action_mask] *=len(self.game.action_demask)/self.game.graph.number_of_nodes()
-                    hist_action_probs[self.game.action_demask] *= len(self.game.action_mask)/self.game.graph.number_of_nodes()
+                    if len(self.game.action_demask) > 0:
+                        hist_action_probs[self.game.action_mask] *=len(self.game.action_demask)/self.game.graph.number_of_nodes()
+                        hist_action_probs[self.game.action_demask] *= len(self.game.action_mask)/self.game.graph.number_of_nodes()
                     ret.append((data_copy,hist_action_probs,reward))
                     # [Board, currentPlayer, actionProbabilities, Reward]
                     # ret.append((hist_state, hist_action_probs, reward * ((-1) ** (hist_current_player != current_player))))

@@ -113,23 +113,11 @@ class Game:
         return valid_moves
     
 
-    # def get_reward_for_player(self, state, threshold =0.0000001,best_action=None):
     def get_reward_for_player(self, state):
 
-        # if self.has_legal_moves(state):
+        if self.has_legal_moves(state):
+            return None
 
-
-        #     # if self.greedy_rollout_func and self.train:
-        #     #    return self.greedy_rollout_func(graph=self.graph, 
-        #     #                               depth=self.depth, 
-        #     #                               nodes=np.where(state == 0)[0])
-                
-        #     # else:
-
-        #     return None
-
-        
-        
         nodes = np.where(state == 0)[0]
         # print('Nodes:',nodes)
         # print(len(nodes))
